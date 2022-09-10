@@ -12,6 +12,14 @@ public class GridComponent : MonoBehaviour
     [SerializeField] private Vector2 m_size;
 
     [SerializeField] private Transform m_CubeRoot;
+    [SerializeField] private SlotComponent m_slotComponent;
+    [SerializeField] private List<SlotComponent> m_slots;
+
+    #endregion
+
+    #region Private Fields
+
+    private PlayerView playerView => GameManager.Instance.GetPlayerView();
 
     #endregion
 
@@ -35,11 +43,32 @@ public class GridComponent : MonoBehaviour
                 targetLocalPosition.x = x * 90 - slotXOffset;
                 targetLocalPosition.y = y * 90 - slotYOffset;
 
-                List<CubeComponent> cubeComponents = gameSettings.Cubes;
-                CubeComponent createdCube = Instantiate(cubeComponents[Random.Range(0,cubeComponents.Count)], m_CubeRoot);
-                
-                createdCube.transform.localPosition = targetLocalPosition;
+                //List<CubeComponent> cubeComponents = gameSettings.Cubes;
+                SlotComponent slotComponent = Instantiate(m_slotComponent, m_CubeRoot);
+                m_slots.Add(slotComponent);
+                slotComponent.transform.localPosition = targetLocalPosition;
+                slotComponent.SetCubeCoordinate(x,y);
+                // CubeComponent createdCube = Instantiate(cubeComponents[Random.Range(0,cubeComponents.Count)], m_CubeRoot);
+                // createdCube.SetCubeCoordinate(x,y);
+                // playerView.GetCreatedCubeComponents().Add(createdCube);
+                //
+                // createdCube.transform.localPosition = targetLocalPosition;
             }
         }
+
+        for (int i = 0; i < m_slots.Count; i++)
+        {
+            List<CubeComponent> cubeComponents = gameSettings.Cubes;
+
+            CubeComponent createdCube = Instantiate(cubeComponents[Random.Range(0,cubeComponents.Count)], m_CubeRoot);
+            createdCube.transform.parent = m_slots[i].transform;
+            m_slots[i].UpdateSlot(true);
+            createdCube.SetSlotComponent(m_slots[i]);
+            //createdCube.SetCubeCoordinate(x,y);
+            playerView.GetCreatedCubeComponents().Add(createdCube);
+                
+            createdCube.transform.localPosition = Vector3.zero;
+        }
     }
+    
 }

@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 8795545838905767339}
   - component: {fileID: 8795545838905767338}
   - component: {fileID: -3062347740508575608}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: YellowImage
-  m_TagString: Untagged
+  m_TagString: Cube
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -62,6 +62,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EcolorType: 1
+  m_cubeCoordinate: {x: 0, y: 0}
 --- !u!114 &8795545838905767339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,8 +104,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 97.336914, y: 99.00574, z: 1}
-  m_Center: {x: 0.020507812, y: -0.47979736, z: 0}
+  m_Size: {x: 56.822113, y: 99.00575, z: 81.512505}
+  m_Center: {x: 5.035473, y: -0.4797957, z: 4.935125}
 --- !u!114 &-3062347740508575608
 MonoBehaviour:
   m_ObjectHideFlags: 0

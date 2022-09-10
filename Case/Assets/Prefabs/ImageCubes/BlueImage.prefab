@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 2648716365414336412}
   - component: {fileID: 2648716365414336415}
   - component: {fileID: 1492346582531515454}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BlueImage
-  m_TagString: Untagged
+  m_TagString: Cube
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -62,6 +62,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EcolorType: 3
+  m_cubeCoordinate: {x: 0, y: 0}
 --- !u!114 &2648716365414336412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,8 +104,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 97.336914, y: 99.00574, z: 1}
-  m_Center: {x: 0.020507812, y: -0.47979736, z: 0}
+  m_Size: {x: 56.822113, y: 99.00575, z: 81.512505}
+  m_Center: {x: 5.035473, y: -0.4797957, z: 4.935125}
 --- !u!114 &1492346582531515454
 MonoBehaviour:
   m_ObjectHideFlags: 0

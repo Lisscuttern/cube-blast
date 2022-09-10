@@ -7,10 +7,21 @@ namespace PEAK
         #region SerializeFields
 
         [SerializeField] private GameSetting m_gameSetting;
+        [SerializeField] private PlayerView m_playerView;
+
 
         #endregion
 
 
+        /// <summary>
+        /// This function return related game setting
+        /// </summary>
+        /// <returns></returns>
+        public PlayerView GetPlayerView()
+        {
+            return m_playerView;
+        }
+        
         /// <summary>
         /// This function return related game setting
         /// </summary>
