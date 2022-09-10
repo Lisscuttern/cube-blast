@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace PEAK
@@ -12,6 +13,25 @@ namespace PEAK
 
         #endregion
 
+        #region Private Fields
+
+        private LevelComponent levelComponent;
+
+        #endregion
+
+        private void Start()
+        {
+            InitializeWorld();
+        }
+
+        /// <summary>
+        /// This function helper for initialize world.
+        /// </summary>
+        private void InitializeWorld()
+        {
+            Level currentLevel = LevelService.GetCurrentLevel();
+            levelComponent = Instantiate(currentLevel.Prefab);
+        }
 
         /// <summary>
         /// This function return related game setting

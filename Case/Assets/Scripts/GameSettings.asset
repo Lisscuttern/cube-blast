@@ -19,3 +19,5 @@ MonoBehaviour:
   - {fileID: 5596163091314596477, guid: f1995bcdd95e3465d9647b97466d1bb1, type: 3}
   CubeScaleMultiply: 0.35
   CubeScaleDuration: 0.35
+  Levels:
+  - {fileID: 11400000, guid: 97416db7462d94650a1ab269d8ab2ebc, type: 2}
