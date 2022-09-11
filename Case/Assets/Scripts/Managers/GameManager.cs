@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace PEAK
@@ -49,6 +48,15 @@ namespace PEAK
         public GameSetting GetGameSetting()
         {
             return m_gameSetting;
+        }
+
+        /// <summary>
+        /// This function return related level component
+        /// </summary>
+        /// <returns></returns>
+        public LevelComponent GetLevelComponent()
+        {
+            return levelComponent;
         }
     }
 }

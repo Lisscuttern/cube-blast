@@ -15,6 +15,19 @@ public class SlotComponent : MonoBehaviour
     #endregion
 
     /// <summary>
+    /// This function help for control slot is empty or not
+    /// </summary>
+    /// <param name="offset"></param>
+    /// <returns></returns>
+    public bool SlotCapacityControl(float offset)
+    {
+        if (GetCubeCoordinates() == new Vector2(GetCubeCoordinates().x, GetCubeCoordinates().y - offset))
+            return true;
+
+        return false;
+    }
+    
+    /// <summary>
     /// This function help for set cube coordinates
     /// </summary>
     /// <param name="x"></param>
@@ -36,7 +49,7 @@ public class SlotComponent : MonoBehaviour
     /// This funtion return related is slot empty
     /// </summary>
     /// <returns></returns>
-    public bool GetIsSlotEmpty()
+    public bool GetIsSlotFull()
     {
         return m_isSlotEmpty;
     }

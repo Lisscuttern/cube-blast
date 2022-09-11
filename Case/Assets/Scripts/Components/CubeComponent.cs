@@ -1,7 +1,7 @@
-using System;
 using PEAK;
 using UnityEngine;
 using DG.Tweening;
+using System.Collections.Generic;
 
 public class CubeComponent : MonoBehaviour
 {
@@ -9,6 +9,7 @@ public class CubeComponent : MonoBehaviour
 
     [SerializeField] private EColorType m_EcolorType;
     [SerializeField] private SlotComponent m_slotComponent;
+    
 
     #endregion
 
@@ -18,7 +19,6 @@ public class CubeComponent : MonoBehaviour
 
     #endregion
 
-    
 
     /// <summary>
     /// This function help for hit raycast to the left side
@@ -38,8 +38,12 @@ public class CubeComponent : MonoBehaviour
                 if (playerView.GetRaycastCubes().Contains(cubeComponent))
                     return;
                 playerView.GetRaycastCubes().Add(cubeComponent);
+                playerView.GetCreatedCubeComponents().Remove(cubeComponent);
                 cubeComponent.Select();
                 cubeComponent.GetSlotComponent().UpdateSlot(false);
+                // LevelComponent levelComponent = GameManager.Instance.GetLevelComponent();
+                // //levelComponent.GetGridComponent().UpdateCubePositions();
+                // levelComponent.GetGridComponent().StartCoroutine(levelComponent.GetGridComponent().Delay(1));
             }
         }
 
@@ -64,13 +68,16 @@ public class CubeComponent : MonoBehaviour
                 if (playerView.GetRaycastCubes().Contains(cubeComponent))
                     return;
                 playerView.GetRaycastCubes().Add(cubeComponent);
+                playerView.GetCreatedCubeComponents().Remove(cubeComponent);
                 cubeComponent.Select();
                 cubeComponent.GetSlotComponent().UpdateSlot(false);
+                // LevelComponent levelComponent = GameManager.Instance.GetLevelComponent();
+                // //levelComponent.GetGridComponent().UpdateCubePositions();
+                // levelComponent.GetGridComponent().StartCoroutine(levelComponent.GetGridComponent().Delay(1));
             }
         }
 
         Invoke("DestroyCubes", .5f);
-
     }
 
     /// <summary>
@@ -91,14 +98,15 @@ public class CubeComponent : MonoBehaviour
                 if (playerView.GetRaycastCubes().Contains(cubeComponent))
                     return;
                 playerView.GetRaycastCubes().Add(cubeComponent);
+                playerView.GetCreatedCubeComponents().Remove(cubeComponent);
                 cubeComponent.Select();
                 cubeComponent.GetSlotComponent().UpdateSlot(false);
-
+                // LevelComponent levelComponent = GameManager.Instance.GetLevelComponent();
+                // //levelComponent.GetGridComponent().UpdateCubePositions();
+                // levelComponent.GetGridComponent().StartCoroutine(levelComponent.GetGridComponent().Delay(1));
             }
         }
-
         Invoke("DestroyCubes", .5f);
-
     }
 
     /// <summary>
@@ -110,7 +118,6 @@ public class CubeComponent : MonoBehaviour
 
         if (Physics.Raycast(transform.position, Vector3.down, out hit, 95))
         {
-
             if (hit.collider.gameObject.tag != CommonTypes.CUBE_TAG)
                 return;
             CubeComponent cubeComponent = hit.collider.GetComponent<CubeComponent>();
@@ -120,9 +127,13 @@ public class CubeComponent : MonoBehaviour
                 if (playerView.GetRaycastCubes().Contains(cubeComponent))
                     return;
                 playerView.GetRaycastCubes().Add(cubeComponent);
+                playerView.GetCreatedCubeComponents().Remove(cubeComponent);
+
                 cubeComponent.Select();
                 cubeComponent.GetSlotComponent().UpdateSlot(false);
-
+                // LevelComponent levelComponent = GameManager.Instance.GetLevelComponent();
+                // //levelComponent.GetGridComponent().UpdateCubePositions();
+                // levelComponent.GetGridComponent().StartCoroutine(levelComponent.GetGridComponent().Delay(1));
             }
         }
         Invoke("DestroyCubes", .5f);
@@ -133,10 +144,20 @@ public class CubeComponent : MonoBehaviour
     /// </summary>
     private void UpdateCubePosition()
     {
-        float targetCube = GetSlotComponent().GetCubeCoordinates().y;
-        if (GetSlotComponent().GetCubeCoordinates().y - targetCube == 0)
+
+        float targetCube = GetSlotComponent().GetCubeCoordinates().y - 1;
+
+        List<SlotComponent> slots = GameManager.Instance.GetLevelComponent().GetGridComponent().GetSlots();
+        for (int i = 0; i < slots.Count; i++)
         {
-            //burada slot componentin bir birim altındaki slot component e ulaşmam lazım
+            if (slots[i].GetCubeCoordinates().y == targetCube)
+            {
+                if (!slots[i].GetIsSlotFull())
+                {
+                    this.transform.parent = slots[i].transform;
+                    transform.DOMoveY(slots[i].transform.localPosition.y, .5f);
+                }
+            }
         }
     }
 
@@ -162,13 +183,16 @@ public class CubeComponent : MonoBehaviour
         HitLeft();
         HitUp();
         HitRight();
+        //LevelComponent levelComponent = GameManager.Instance.GetLevelComponent();
+        //levelComponent.GetGridComponent().UpdateCubePositions();
+        //levelComponent.GetGridComponent().StartCoroutine(levelComponent.GetGridComponent().Delay(1));
+        //UpdateCubePosition();
         //BlastCube();
         GameSetting gameSetting = GameManager.Instance.GetGameSetting();
         Sequence sequence = DOTween.Sequence();
         Vector3 targetScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
         sequence.Join(
             transform.DOPunchScale(targetScale * gameSetting.CubeScaleMultiply, gameSetting.CubeScaleDuration));
-        Debug.Log(this.gameObject.name);
     }
 
     /// <summary>
@@ -180,7 +204,6 @@ public class CubeComponent : MonoBehaviour
         return m_EcolorType;
     }
 
-    
 
     /// <summary>
     /// This function help for set slot component
