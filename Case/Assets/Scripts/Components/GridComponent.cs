@@ -11,8 +11,7 @@ public class GridComponent : MonoBehaviour
 {
     #region SerializeFields
 
-    [Header("Game Area")]
-    [SerializeField] private Vector2 m_size;
+    [Header("Game Area")] [SerializeField] private Vector2 m_size;
 
     [SerializeField] private Transform m_CubeRoot;
     [SerializeField] private Transform m_ReserveCubeRoot;
@@ -20,11 +19,11 @@ public class GridComponent : MonoBehaviour
     [SerializeField] private SlotComponent m_slotComponent;
     [SerializeField] private List<SlotComponent> m_slots;
 
+    [SerializeField] private List<SlotComponent> m_gameSlots;
+
 
     [SerializeField] private List<SlotComponent> emptySlots;
     [SerializeField] private List<CubeComponent> cubesToMove;
-
-
 
     #endregion
 
@@ -37,15 +36,15 @@ public class GridComponent : MonoBehaviour
     private void Start()
     {
         CreateCubes();
-        Invoke("CreateReverseCubes",1);
+        Invoke("CreateReverseCubes", 1);
     }
 
     private void CreateCubes()
     {
-        GameSetting gameSettings = GameManager.Instance.GetGameSetting(); 
+        GameSetting gameSettings = GameManager.Instance.GetGameSetting();
         float slotXOffset = m_size.x / 2 * 90 + (m_size.x % 2 != 0 ? 0 : -0.125F);
         float slotYOffset = m_size.y / 2 * 90 + (m_size.y % 2 != 0 ? 0 : 0.125F);
-        
+
         for (int y = 0; y < m_size.y; y++)
         {
             for (int x = 0; x < m_size.x; x++)
@@ -57,8 +56,9 @@ public class GridComponent : MonoBehaviour
 
                 SlotComponent slotComponent = Instantiate(m_slotComponent, m_CubeRoot);
                 m_slots.Add(slotComponent);
+                m_gameSlots.Add(slotComponent);
                 slotComponent.transform.localPosition = targetLocalPosition;
-                slotComponent.SetCubeCoordinate(x,y);
+                slotComponent.SetCubeCoordinate(x, y);
             }
         }
 
@@ -66,22 +66,23 @@ public class GridComponent : MonoBehaviour
         {
             List<CubeComponent> cubeComponents = gameSettings.Cubes;
 
-            CubeComponent createdCube = Instantiate(cubeComponents[Random.Range(0,cubeComponents.Count)], m_CubeRoot);
+            CubeComponent createdCube = Instantiate(cubeComponents[Random.Range(0, cubeComponents.Count)], m_CubeRoot);
             createdCube.transform.parent = m_slots[i].transform;
             m_slots[i].UpdateSlot(true);
             createdCube.SetSlotComponent(m_slots[i]);
+            m_slots[i].SetCubeComponent(createdCube);
             playerView.GetCreatedCubeComponents().Add(createdCube);
-                
+
             createdCube.transform.localPosition = Vector3.zero;
         }
     }
 
     private void CreateReverseCubes()
     {
-        GameSetting gameSettings = GameManager.Instance.GetGameSetting(); 
+        GameSetting gameSettings = GameManager.Instance.GetGameSetting();
         float slotXOffset = m_size.x / 2 * 90 + (m_size.x % 2 != 0 ? 0 : -0.125F);
         float slotYOffset = m_size.y / 2 * 90 + (m_size.y % 2 != 0 ? 0 : 0.125F);
-        
+
         for (int y = 0; y < m_size.y; y++)
         {
             for (int x = 0; x < m_size.x; x++)
@@ -94,7 +95,7 @@ public class GridComponent : MonoBehaviour
                 SlotComponent slotComponent = Instantiate(m_slotComponent, m_ReserveCubeRoot);
                 m_slots.Add(slotComponent);
                 slotComponent.transform.localPosition = targetLocalPosition;
-                slotComponent.SetCubeCoordinate(x,y+9);
+                slotComponent.SetCubeCoordinate(x, y + 9);
             }
         }
 
@@ -102,105 +103,200 @@ public class GridComponent : MonoBehaviour
         {
             List<CubeComponent> cubeComponents = gameSettings.Cubes;
 
-            CubeComponent createdCube = Instantiate(cubeComponents[Random.Range(0,cubeComponents.Count)], m_ReserveCubeRoot);
+            CubeComponent createdCube =
+                Instantiate(cubeComponents[Random.Range(0, cubeComponents.Count)], m_ReserveCubeRoot);
             createdCube.transform.parent = m_slots[i].transform;
             m_slots[i].UpdateSlot(true);
+            m_slots[i].SetCubeComponent(createdCube);
             createdCube.SetSlotComponent(m_slots[i]);
             playerView.GetCreatedCubeComponents().Add(createdCube);
-                
+
             createdCube.transform.localPosition = Vector3.zero;
         }
     }
 
-     public IEnumerator Delay(float value)
+    public IEnumerator Delay(float value)
     {
         yield return new WaitForSeconds(value);
         //UpdateCubePositions();
         UpdateCubePositionsNew();
     }
 
-     // private void CreateCubesToMove()
-     // {
-     //     for (int i = 0; i < playerView.GetCreatedCubeComponents().Count; i++)
-     //     {
-     //         Debug.Log("küp belirleme foruna girdi");
-     //         CubeComponent cubeComponent = playerView.GetCreatedCubeComponents()[i];
-     //         if (cubeComponent.GetSlotComponent().GetCubeCoordinates().y > emptySlots.First().GetCubeCoordinates().y &&
-     //             cubeComponent.GetSlotComponent().GetCubeCoordinates().x == emptySlots.First().GetCubeCoordinates().x)
-     //         {
-     //             if (cubesToMove.Contains(cubeComponent))
-     //                 return;
-     //                 
-     //             cubesToMove.Add(cubeComponent);
-     //         }
-     //     }
-     // }
-     
-     private void CreateCubesToMove()
-     {
-         for (int i = 0; i < emptySlots.Count; i++)
-         {
-             for (int j = 0; j < playerView.GetCreatedCubeComponents().Count; j++)
-             {
-                 CubeComponent cubeComponent = playerView.GetCreatedCubeComponents()[j];
-                 if (cubeComponent.GetSlotComponent().GetCubeCoordinates().y > emptySlots[i].GetCubeCoordinates().y &&
-                     cubeComponent.GetSlotComponent().GetCubeCoordinates().x == emptySlots[i].GetCubeCoordinates().x)
-                 {
-                     if (cubesToMove.Contains(cubeComponent))
-                         return;
-                     
-                     cubesToMove.Add(cubeComponent);
-                 }
-             }
+    // private void CreateCubesToMove()
+    // {
+    //     for (int i = 0; i < playerView.GetCreatedCubeComponents().Count; i++)
+    //     {
+    //         Debug.Log("küp belirleme foruna girdi");
+    //         CubeComponent cubeComponent = playerView.GetCreatedCubeComponents()[i];
+    //         if (cubeComponent.GetSlotComponent().GetCubeCoordinates().y > emptySlots.First().GetCubeCoordinates().y &&
+    //             cubeComponent.GetSlotComponent().GetCubeCoordinates().x == emptySlots.First().GetCubeCoordinates().x)
+    //         {
+    //             if (cubesToMove.Contains(cubeComponent))
+    //                 return;
+    //                 
+    //             cubesToMove.Add(cubeComponent);
+    //         }
+    //     }
+    // }
+
+
+    private void CreateCubesToMove()
+    {
+        for (int i = 0; i < emptySlots.Count; i++)
+        {
+            for (int j = 0; j < playerView.GetCreatedCubeComponents().Count; j++)
+            {
+                CubeComponent cubeComponent = playerView.GetCreatedCubeComponents()[j];
+                if (cubeComponent.GetSlotComponent().GetCubeCoordinates().y > emptySlots[i].GetCubeCoordinates().y &&
+                    cubeComponent.GetSlotComponent().GetCubeCoordinates().x == emptySlots[i].GetCubeCoordinates().x)
+                {
+                    if (cubesToMove.Contains(cubeComponent))
+                        continue;
+                    
+                    emptySlots.Add(cubeComponent.GetSlotComponent());
+                    cubeComponent.GetSlotComponent().UpdateSlot(false);
+                    cubesToMove.Add(cubeComponent);
+                }
+            }
+        }
+    }
+
+    public void CubesMoveVol3()
+    {
+        for (int i = 0; i < cubesToMove.Count; i++)
+        {
+            SlotComponent targetSlot = new SlotComponent();
+
+            for (int j = 0; j < GetSlots().Count; j++)
+            {
+                if (GetSlots()[j].GetCubeCoordinates().x == cubesToMove[i].GetSlotComponent().GetCubeCoordinates().x &&
+                    GetSlots()[j].GetCubeCoordinates().y < cubesToMove[i].GetSlotComponent().GetCubeCoordinates().y)
+                {
+                    targetSlot = emptySlots[0];
+                    if (targetSlot.GetIsSlotFull())
+                        continue;
+
+                    cubesToMove[i].GetSlotComponent().UpdateSlot(false);
+                    cubesToMove[i].transform.parent = targetSlot.transform;
+                    cubesToMove[i].transform.DOLocalMoveY(0, .5F);
+                    targetSlot.UpdateSlot(true);
+                }
+            }
+        }
+    }
+
+    private void CubesMoveVol3OLACAK()
+    {
+        for (int i = 0; i < emptySlots.Count; i++)
+        {
+            for (int j = 0; j < cubesToMove.Count; j++)
+            {
+                SlotComponent slotComponent = emptySlots[i];
+                CubeComponent cubeComponent = cubesToMove[j];
+                if (slotComponent.GetCubeCoordinates().x == cubeComponent.GetSlotComponent().GetCubeCoordinates().x &&
+                    slotComponent.GetCubeCoordinates().y < cubeComponent.GetSlotComponent().GetCubeCoordinates().y)
+                {
+                    if(slotComponent.GetIsSlotFull())
+                        continue;
+
+                    cubeComponent.transform.parent = slotComponent.transform;
+                    cubeComponent.transform.DOLocalMoveY(1, 0.2f);
+                    cubeComponent.SetSlotComponent(slotComponent);
+                    cubeComponent.GetSlotComponent().UpdateSlot(true);
+                    //emptySlots.Remove(slotComponent);
+                }
+            }
+        }
+    }
+
+    public void CubesMoveVol2()
+    {
+        for (int i = 0; i < cubesToMove.Count; i++)
+        {
+            SlotComponent targetSlot = new SlotComponent();
+
+            for (int j = 0; j < GetSlots().Count; j++)
+            {
              
-         }
-     }
+                if (GetSlots()[j].GetCubeCoordinates().x == cubesToMove[i].GetSlotComponent().GetCubeCoordinates().x &&
+                    GetSlots()[j].GetCubeCoordinates().y < cubesToMove[i].GetSlotComponent().GetCubeCoordinates().y)
+                {
+                    targetSlot = GetSlots()[j];
+                    if (targetSlot.GetIsSlotFull())
+                        continue;
+                    //cubesToMove.Remove(cubesToMove[i]);
 
-     private void CubesMove()
-     {
-         for (int i = 0; i < cubesToMove.Count; i++)
-         {
-             if (emptySlots.LastOrDefault().GetIsSlotFull())
-             {
-                 emptySlots.Remove(emptySlots.LastOrDefault());
-                 continue;
-             }
-                 
-             Transform targetPos = emptySlots.LastOrDefault().transform;
-             cubesToMove[i].transform.DOMoveY(targetPos.position.y, 1);
-             emptySlots.LastOrDefault().UpdateSlot(true);
-         }
-         
-         cubesToMove.Clear();
-         emptySlots.Clear();
-     }
+                    cubesToMove[i].GetSlotComponent().UpdateSlot(false);
+                    cubesToMove[i].transform.parent = targetSlot.transform;
 
-     /// <summary>
-     /// This function help for update cube positions after select 
-     /// </summary>
-     public void UpdateCubePositionsNew()
-     {
-         //List<SlotComponent> emptySlots = new List<SlotComponent>();
-         for (int i = 0; i < GetSlots().Count; i++)
-         {
-             if (!GetSlots()[i].GetIsSlotFull())
-             {
-                 Debug.Log("Empty slot listesini doldurdu");
-                 if (emptySlots.Contains(GetSlots()[i]))
-                     return;
-                 
-                 emptySlots.Add(GetSlots()[i]);
-                 
-             }
-         }
-         Invoke("CreateCubesToMove",2);
-         //CreateCubesToMove();
+                    cubesToMove[i].transform.DOLocalMoveY(0, .1F);
+                    targetSlot.UpdateSlot(true);
+                }
+            }
+        }
+    }
+
+    public void Deneme()
+    {
+        Debug.Log("denemeye girdi");
+        for (int i = 0; i < cubesToMove.Count; i++)
+        {
+            CubeComponent cubeComponent = cubesToMove[i];
+            cubeComponent.UpdateCubePos();
+        }
+    }
+
+    public void CubesMove()
+    {
+        for (int i = 0; i < emptySlots.Count; i++)
+        {
+            SlotComponent targetSlot = emptySlots[i];
+            for (int j = 0; j < cubesToMove.Count; j++)
+            {
+                CubeComponent cubeComponent = cubesToMove[j];
+
+                if (cubeComponent.GetSlotComponent().GetCubeCoordinates().x == targetSlot.GetCubeCoordinates().x)
+                {
+                    if (targetSlot.GetIsSlotFull())
+                        continue;
+                    Debug.Log("hareket ediyolar");
+                    cubeComponent.transform.parent = targetSlot.transform;
+                    cubeComponent.transform.DOLocalMoveY(0, 1);
+                    targetSlot.UpdateSlot(true);
+                    cubesToMove.Remove(cubeComponent);
+                }
+            }
+            //emptySlots.Remove(targetSlot);
+        }
+        // cubesToMove.Clear();
+        // emptySlots.Clear();
+    }
+
+    /// <summary>
+    /// This function help for update cube positions after select 
+    /// </summary>
+    public void UpdateCubePositionsNew()
+    {
+        //List<SlotComponent> emptySlots = new List<SlotComponent>();
+        for (int i = 0; i < GetSlots().Count; i++)
+        {
+            if (!GetSlots()[i].GetIsSlotFull())
+            {
+                if (emptySlots.Contains(GetSlots()[i]))
+                    return;
+
+                emptySlots.Add(GetSlots()[i]);
+            }
+        }
 
 
-         
-        
+        Invoke("CreateCubesToMove", 2.5f);
+        Invoke("CubesMoveVol3OLACAK",4f);
+        //Invoke("CubesMoveVol2", 4);
+        //Invoke("Deneme", 4);
 
 
+        //CreateCubesToMove();
 
 
         // while (emptySlots.Count != 0)
@@ -234,15 +330,13 @@ public class GridComponent : MonoBehaviour
         //             break;
         //     }
         // }
-
-     }
+    }
 
     /// <summary>
     /// This function help for update cube positions after select 
     /// </summary>
     public void UpdateCubePositions()
     {
-
         for (int i = 0; i < GetSlots().Count; i++)
         {
             SlotComponent targetSlotComponent = GetSlots()[i];
@@ -252,18 +346,17 @@ public class GridComponent : MonoBehaviour
             {
                 CubeComponent cubeComponent = playerView.GetCreatedCubeComponents()[j];
                 SlotComponent slotComponent = cubeComponent.GetSlotComponent();
-                
+
                 if (slotComponent.GetCubeCoordinates().y == targetSlotComponent.GetCubeCoordinates().y + 1)
                 {
                     if (targetSlotComponent.GetIsSlotFull())
                         return;
-                  
+
                     targetSlotComponent.UpdateSlot(true);
                     cubeComponent.transform.parent = targetSlotComponent.transform;
                     cubeComponent.transform.DOLocalMoveY(0, 1).OnComplete(() =>
                     {
                         cubeComponent.transform.localPosition = Vector3.zero;
-
                     });
                 }
             }
@@ -278,5 +371,4 @@ public class GridComponent : MonoBehaviour
     {
         return m_slots;
     }
-
 }

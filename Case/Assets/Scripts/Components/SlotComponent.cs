@@ -6,6 +6,7 @@ public class SlotComponent : MonoBehaviour
 
     [SerializeField] private Vector2 m_cubeCoordinate;
     [SerializeField] private bool m_isSlotEmpty;
+    [SerializeField] private CubeComponent m_cubeComponent;
 
     #endregion
     
@@ -61,5 +62,24 @@ public class SlotComponent : MonoBehaviour
     public Vector2 GetCubeCoordinates()
     {
         return m_cubeCoordinate;
+    }
+
+
+    /// <summary>
+    /// This function help for set cube component
+    /// </summary>
+    /// <param name="cubeComponent"></param>
+    public void SetCubeComponent(CubeComponent cubeComponent)
+    {
+        m_cubeComponent = cubeComponent;
+    }
+
+    /// <summary>
+    /// This function return related cube component
+    /// </summary>
+    /// <returns></returns>
+    public CubeComponent GetCubeComponent()
+    {
+        return m_cubeComponent;
     }
 }
