@@ -128,18 +128,41 @@ public class GridComponent : MonoBehaviour
         FindEmptySlots();
     }
 
-    /// <summary>
-    /// This function help for find cubes to move
-    /// </summary>
+    // /// <summary>
+    // /// This function help for find cubes to move
+    // /// </summary>
+    // private void FindCubesToMove()
+    // {
+    //     for (int i = 0; i < emptySlots.Count; i++)
+    //     {
+    //         for (int j = 0; j < playerView.GetCreatedCubeComponents().Count; j++)
+    //         {
+    //             CubeComponent cubeComponent = playerView.GetCreatedCubeComponents()[j];
+    //             if (cubeComponent.GetSlotComponent().GetCubeCoordinates().y > emptySlots[i].GetCubeCoordinates().y &&
+    //                 cubeComponent.GetSlotComponent().GetCubeCoordinates().x == emptySlots[i].GetCubeCoordinates().x)
+    //             {
+    //                 if (cubesToMove.Contains(cubeComponent))
+    //                     continue;
+    //                 
+    //                 emptySlots.Add(cubeComponent.GetSlotComponent());
+    //                 cubeComponent.GetSlotComponent().UpdateSlot(false);
+    //                 cubesToMove.Add(cubeComponent);
+    //             }
+    //         }
+    //     }
+    // }
+
     private void FindCubesToMove()
     {
-        for (int i = 0; i < emptySlots.Count; i++)
+        for (int i = 0; i < playerView.GetCreatedCubeComponents().Count; i++)
         {
-            for (int j = 0; j < playerView.GetCreatedCubeComponents().Count; j++)
+            CubeComponent cubeComponent = playerView.GetCreatedCubeComponents()[i];
+
+            for (int j = 0; j < emptySlots.Count; j++)
             {
-                CubeComponent cubeComponent = playerView.GetCreatedCubeComponents()[j];
-                if (cubeComponent.GetSlotComponent().GetCubeCoordinates().y > emptySlots[i].GetCubeCoordinates().y &&
-                    cubeComponent.GetSlotComponent().GetCubeCoordinates().x == emptySlots[i].GetCubeCoordinates().x)
+                SlotComponent slotComponent = emptySlots[j];
+                if (slotComponent.GetCubeCoordinates().x == cubeComponent.GetSlotComponent().GetCubeCoordinates().x &&
+                    slotComponent.GetCubeCoordinates().y < cubeComponent.GetSlotComponent().GetCubeCoordinates().y)
                 {
                     if (cubesToMove.Contains(cubeComponent))
                         continue;
@@ -177,6 +200,10 @@ public class GridComponent : MonoBehaviour
                 }
             }
         }
+        
+        
+        emptySlots.Clear();
+        cubesToMove.Clear();
     }
 
     /// <summary>
@@ -194,8 +221,8 @@ public class GridComponent : MonoBehaviour
                 emptySlots.Add(emptySlot);
             }
         }
-        Invoke("FindCubesToMove", 2.5f);
-        Invoke("UpdateCubesPositions",4f);
+        Invoke("FindCubesToMove", .1f);
+        Invoke("UpdateCubesPositions",.5f);
     }
     
     /// <summary>
