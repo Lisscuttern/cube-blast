@@ -1,10 +1,8 @@
-using System;
+using PEAK;
+using DG.Tweening;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using DG.Tweening;
-using PEAK;
-using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class GridComponent : MonoBehaviour
@@ -36,9 +34,12 @@ public class GridComponent : MonoBehaviour
     private void Start()
     {
         CreateCubes();
-        Invoke("CreateReverseCubes", 1);
+        Invoke("CreateReverseCubes", .5f);
     }
 
+    /// <summary>
+    /// This function help for create game cubes
+    /// </summary>
     private void CreateCubes()
     {
         GameSetting gameSettings = GameManager.Instance.GetGameSetting();
@@ -70,13 +71,15 @@ public class GridComponent : MonoBehaviour
             createdCube.transform.parent = m_slots[i].transform;
             m_slots[i].UpdateSlot(true);
             createdCube.SetSlotComponent(m_slots[i]);
-            m_slots[i].SetCubeComponent(createdCube);
             playerView.GetCreatedCubeComponents().Add(createdCube);
 
             createdCube.transform.localPosition = Vector3.zero;
         }
     }
 
+    /// <summary>
+    /// This function help for create reserve cubes
+    /// </summary>
     private void CreateReverseCubes()
     {
         GameSetting gameSettings = GameManager.Instance.GetGameSetting();
@@ -107,7 +110,6 @@ public class GridComponent : MonoBehaviour
                 Instantiate(cubeComponents[Random.Range(0, cubeComponents.Count)], m_ReserveCubeRoot);
             createdCube.transform.parent = m_slots[i].transform;
             m_slots[i].UpdateSlot(true);
-            m_slots[i].SetCubeComponent(createdCube);
             createdCube.SetSlotComponent(m_slots[i]);
             playerView.GetCreatedCubeComponents().Add(createdCube);
 
@@ -115,32 +117,21 @@ public class GridComponent : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// This function help for add spesific delay for find empty slots function
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
     public IEnumerator Delay(float value)
     {
         yield return new WaitForSeconds(value);
-        //UpdateCubePositions();
-        UpdateCubePositionsNew();
+        FindEmptySlots();
     }
 
-    // private void CreateCubesToMove()
-    // {
-    //     for (int i = 0; i < playerView.GetCreatedCubeComponents().Count; i++)
-    //     {
-    //         Debug.Log("küp belirleme foruna girdi");
-    //         CubeComponent cubeComponent = playerView.GetCreatedCubeComponents()[i];
-    //         if (cubeComponent.GetSlotComponent().GetCubeCoordinates().y > emptySlots.First().GetCubeCoordinates().y &&
-    //             cubeComponent.GetSlotComponent().GetCubeCoordinates().x == emptySlots.First().GetCubeCoordinates().x)
-    //         {
-    //             if (cubesToMove.Contains(cubeComponent))
-    //                 return;
-    //                 
-    //             cubesToMove.Add(cubeComponent);
-    //         }
-    //     }
-    // }
-
-
-    private void CreateCubesToMove()
+    /// <summary>
+    /// This function help for find cubes to move
+    /// </summary>
+    private void FindCubesToMove()
     {
         for (int i = 0; i < emptySlots.Count; i++)
         {
@@ -161,31 +152,10 @@ public class GridComponent : MonoBehaviour
         }
     }
 
-    public void CubesMoveVol3()
-    {
-        for (int i = 0; i < cubesToMove.Count; i++)
-        {
-            SlotComponent targetSlot = new SlotComponent();
-
-            for (int j = 0; j < GetSlots().Count; j++)
-            {
-                if (GetSlots()[j].GetCubeCoordinates().x == cubesToMove[i].GetSlotComponent().GetCubeCoordinates().x &&
-                    GetSlots()[j].GetCubeCoordinates().y < cubesToMove[i].GetSlotComponent().GetCubeCoordinates().y)
-                {
-                    targetSlot = emptySlots[0];
-                    if (targetSlot.GetIsSlotFull())
-                        continue;
-
-                    cubesToMove[i].GetSlotComponent().UpdateSlot(false);
-                    cubesToMove[i].transform.parent = targetSlot.transform;
-                    cubesToMove[i].transform.DOLocalMoveY(0, .5F);
-                    targetSlot.UpdateSlot(true);
-                }
-            }
-        }
-    }
-
-    private void CubesMoveVol3OLACAK()
+    /// <summary>
+    /// This function help for update cube positions after matched cube
+    /// </summary>
+    private void UpdateCubesPositions()
     {
         for (int i = 0; i < emptySlots.Count; i++)
         {
@@ -209,160 +179,25 @@ public class GridComponent : MonoBehaviour
         }
     }
 
-    public void CubesMoveVol2()
-    {
-        for (int i = 0; i < cubesToMove.Count; i++)
-        {
-            SlotComponent targetSlot = new SlotComponent();
-
-            for (int j = 0; j < GetSlots().Count; j++)
-            {
-             
-                if (GetSlots()[j].GetCubeCoordinates().x == cubesToMove[i].GetSlotComponent().GetCubeCoordinates().x &&
-                    GetSlots()[j].GetCubeCoordinates().y < cubesToMove[i].GetSlotComponent().GetCubeCoordinates().y)
-                {
-                    targetSlot = GetSlots()[j];
-                    if (targetSlot.GetIsSlotFull())
-                        continue;
-                    //cubesToMove.Remove(cubesToMove[i]);
-
-                    cubesToMove[i].GetSlotComponent().UpdateSlot(false);
-                    cubesToMove[i].transform.parent = targetSlot.transform;
-
-                    cubesToMove[i].transform.DOLocalMoveY(0, .1F);
-                    targetSlot.UpdateSlot(true);
-                }
-            }
-        }
-    }
-
-    public void Deneme()
-    {
-        Debug.Log("denemeye girdi");
-        for (int i = 0; i < cubesToMove.Count; i++)
-        {
-            CubeComponent cubeComponent = cubesToMove[i];
-            cubeComponent.UpdateCubePos();
-        }
-    }
-
-    public void CubesMove()
-    {
-        for (int i = 0; i < emptySlots.Count; i++)
-        {
-            SlotComponent targetSlot = emptySlots[i];
-            for (int j = 0; j < cubesToMove.Count; j++)
-            {
-                CubeComponent cubeComponent = cubesToMove[j];
-
-                if (cubeComponent.GetSlotComponent().GetCubeCoordinates().x == targetSlot.GetCubeCoordinates().x)
-                {
-                    if (targetSlot.GetIsSlotFull())
-                        continue;
-                    Debug.Log("hareket ediyolar");
-                    cubeComponent.transform.parent = targetSlot.transform;
-                    cubeComponent.transform.DOLocalMoveY(0, 1);
-                    targetSlot.UpdateSlot(true);
-                    cubesToMove.Remove(cubeComponent);
-                }
-            }
-            //emptySlots.Remove(targetSlot);
-        }
-        // cubesToMove.Clear();
-        // emptySlots.Clear();
-    }
-
     /// <summary>
     /// This function help for update cube positions after select 
     /// </summary>
-    public void UpdateCubePositionsNew()
+    public void FindEmptySlots()
     {
-        //List<SlotComponent> emptySlots = new List<SlotComponent>();
         for (int i = 0; i < GetSlots().Count; i++)
         {
-            if (!GetSlots()[i].GetIsSlotFull())
+            SlotComponent emptySlot = GetSlots()[i];
+            if (!emptySlot.GetIsSlotFull())
             {
-                if (emptySlots.Contains(GetSlots()[i]))
+                if (emptySlots.Contains(emptySlot))
                     return;
-
-                emptySlots.Add(GetSlots()[i]);
+                emptySlots.Add(emptySlot);
             }
         }
-
-
-        Invoke("CreateCubesToMove", 2.5f);
-        Invoke("CubesMoveVol3OLACAK",4f);
-        //Invoke("CubesMoveVol2", 4);
-        //Invoke("Deneme", 4);
-
-
-        //CreateCubesToMove();
-
-
-        // while (emptySlots.Count != 0)
-        // {
-        //     Debug.Log("while başladı");
-        //     for (int i = 0; i < emptySlots.Count; i++)
-        //     {
-        //
-        //         List<CubeComponent> createdCubes = playerView.GetCreatedCubeComponents();
-        //         Debug.Log("empty slotları döndü");
-        //
-        //         for (int j = 0; j < createdCubes.Count; j++)
-        //         {
-        //             if (emptySlots.Count == 0)
-        //                 break;
-        //             if (emptySlots[i].GetCubeCoordinates().y == createdCubes[j].GetSlotComponent().GetCubeCoordinates().y - 1)
-        //             {
-        //                 
-        //                 Debug.Log("son if e girdi küplerin parent ını değiştirdi tween hareketi başladı");
-        //
-        //                 //createdCubes[j].transform.localPosition = Vector3.zero;
-        //                 
-        //                 createdCubes[j].transform.parent = emptySlots[i].transform;
-        //                 createdCubes[j].transform.DOLocalMoveY(0, 1);
-        //                 emptySlots[i].UpdateSlot(true);
-        //                 emptySlots.Remove(emptySlots[i]);
-        //             }
-        //         }
-        //
-        //         if (emptySlots.Count == 0)
-        //             break;
-        //     }
-        // }
+        Invoke("FindCubesToMove", 2.5f);
+        Invoke("UpdateCubesPositions",4f);
     }
-
-    /// <summary>
-    /// This function help for update cube positions after select 
-    /// </summary>
-    public void UpdateCubePositions()
-    {
-        for (int i = 0; i < GetSlots().Count; i++)
-        {
-            SlotComponent targetSlotComponent = GetSlots()[i];
-            if (targetSlotComponent.GetIsSlotFull())
-                continue;
-            for (int j = 0; j < playerView.GetCreatedCubeComponents().Count; j++)
-            {
-                CubeComponent cubeComponent = playerView.GetCreatedCubeComponents()[j];
-                SlotComponent slotComponent = cubeComponent.GetSlotComponent();
-
-                if (slotComponent.GetCubeCoordinates().y == targetSlotComponent.GetCubeCoordinates().y + 1)
-                {
-                    if (targetSlotComponent.GetIsSlotFull())
-                        return;
-
-                    targetSlotComponent.UpdateSlot(true);
-                    cubeComponent.transform.parent = targetSlotComponent.transform;
-                    cubeComponent.transform.DOLocalMoveY(0, 1).OnComplete(() =>
-                    {
-                        cubeComponent.transform.localPosition = Vector3.zero;
-                    });
-                }
-            }
-        }
-    }
-
+    
     /// <summary>
     /// This function returen related slots
     /// </summary>

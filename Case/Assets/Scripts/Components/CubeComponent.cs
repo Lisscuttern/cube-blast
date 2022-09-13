@@ -18,29 +18,6 @@ public class CubeComponent : MonoBehaviour
 
     #endregion
     
-
-    public void UpdateCubePos()
-    {
-        Level level = LevelService.GetCurrentLevel();
-        LevelComponent levelComponent = GameManager.Instance.GetLevelComponent();
-
-        for (int i = 0; i < levelComponent.GetGridComponent().GetSlots().Count; i++)
-        {
-            SlotComponent targetSlot = levelComponent.GetGridComponent().GetSlots()[i];
-
-            if (targetSlot.GetCubeCoordinates().x == GetSlotComponent().GetCubeCoordinates().x &&
-                targetSlot.GetCubeCoordinates().y < GetSlotComponent().GetCubeCoordinates().y)
-            {
-                if(targetSlot.GetIsSlotFull())
-                    continue;
-                this.transform.parent = targetSlot.transform;
-                transform.DOLocalMoveY(0, 0.3f);
-                GetSlotComponent().UpdateSlot(false);
-                targetSlot.UpdateSlot(true);
-            }
-        }
-    }
-
     /// <summary>
     /// This function help for hit raycast to the left side
     /// </summary>
@@ -172,7 +149,6 @@ public class CubeComponent : MonoBehaviour
         HitUp();
         HitRight();
         LevelComponent levelComponent = GameManager.Instance.GetLevelComponent();
-        //levelComponent.GetGridComponent().UpdateCubePositionsNew();
         levelComponent.GetGridComponent().StartCoroutine(levelComponent.GetGridComponent().Delay(1));
         GameSetting gameSetting = GameManager.Instance.GetGameSetting();
         Sequence sequence = DOTween.Sequence();
