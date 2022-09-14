@@ -1,4 +1,3 @@
-using System;
 using PEAK;
 using UnityEngine;
 using DG.Tweening;
@@ -9,6 +8,13 @@ public class CubeComponent : MonoBehaviour
 
     [SerializeField] private EColorType m_EcolorType;
     [SerializeField] private SlotComponent m_slotComponent;
+    
+    [Header("Transforms")] 
+    [SerializeField] private RectTransform m_canvas;
+    [SerializeField] private RectTransform m_currencySlot;
+        
+    [Header("Prefabs")]
+    [SerializeField] private RectTransform m_currencyPrefab;
     
     #endregion
 
@@ -131,12 +137,58 @@ public class CubeComponent : MonoBehaviour
     /// </summary>
     private void DestroyCubes()
     {
+        UpdateGoalValue();
         for (int i = 0; i < playerView.GetRaycastCubes().Count; i++)
         {
             Destroy(playerView.GetRaycastCubes()[i].gameObject);
         }
-
         playerView.GetRaycastCubes().Clear();
+    }
+
+    /// <summary>
+    /// This function help for update goal values
+    /// </summary>
+    private void UpdateGoalValue()
+    {
+        LevelComponent levelComponent = GameManager.Instance.GetLevelComponent();
+        for (int i = 0; i < levelComponent.GetUiGoalPanel().GetUıGoalItems().Count; i++)
+        {
+            UIGoalItem uiGoalItem = levelComponent.GetUiGoalPanel().GetUıGoalItems()[i];
+            for (int j = 0; j < playerView.GetRaycastCubes().Count; j++)
+            {
+                CubeComponent cubeComponent = playerView.GetRaycastCubes()[j];
+                if (cubeComponent.GetEColorType() == uiGoalItem.GetEColor())
+                {
+                    uiGoalItem.UpdateGoalValue();
+                }
+            }
+            
+        }
+    }
+    
+    /// <summary>
+    /// This function helper for fly currency animation to target currency icon.
+    /// </summary>
+    /// <param name="worldPosition"></param>
+    public void FlyCurrencyFromWorld(Vector3 worldPosition)
+    {
+        Camera targetCamera = CameraManager.Instance.GetCamera();
+        Vector3 screenPosition = GameUtils.WorldToCanvasPosition(m_canvas, targetCamera, worldPosition);
+        Vector3 targetScreenPosition = m_canvas.InverseTransformPoint(m_currencySlot.position);
+
+        RectTransform createdCurrency = Instantiate(m_currencyPrefab, m_canvas);
+        createdCurrency.anchoredPosition = screenPosition;
+
+        Sequence sequence = DOTween.Sequence();
+
+        sequence.Join(createdCurrency.transform.DOLocalMove(targetScreenPosition, 0.5F));
+
+        sequence.OnComplete(() =>
+        {
+            Destroy(createdCurrency.gameObject);
+        });
+
+        sequence.Play();
     }
 
     /// <summary>

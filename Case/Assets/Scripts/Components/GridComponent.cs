@@ -23,6 +23,8 @@ public class GridComponent : MonoBehaviour
     [SerializeField] private List<SlotComponent> emptySlots;
     [SerializeField] private List<CubeComponent> cubesToMove;
 
+    [SerializeField] private UIGoalsPanel m_uiGoalPanel;
+
     #endregion
 
     #region Private Fields
@@ -200,8 +202,6 @@ public class GridComponent : MonoBehaviour
                 }
             }
         }
-        
-        
         emptySlots.Clear();
         cubesToMove.Clear();
     }

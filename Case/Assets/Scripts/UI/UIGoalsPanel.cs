@@ -1,18 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class UIGoalsPanel : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    #region SerializeFields
 
-    // Update is called once per frame
-    void Update()
+    [SerializeField] private List<UIGoalItem> m_goalItems;
+
+    #endregion
+    
+
+    /// <summary>
+    /// This function return related ui goals
+    /// </summary>
+    /// <returns></returns>
+    public List<UIGoalItem> GetUıGoalItems()
     {
-        
+        return m_goalItems;
     }
 }

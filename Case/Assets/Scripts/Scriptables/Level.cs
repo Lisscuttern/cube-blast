@@ -9,6 +9,7 @@ namespace PEAK
         public int Id;
         public string Name;
         public LevelComponent Prefab;
+        public int GoalNumber;
 
     }
 }
