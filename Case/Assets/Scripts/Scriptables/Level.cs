@@ -10,6 +10,6 @@ namespace PEAK
         public string Name;
         public LevelComponent Prefab;
         public int GoalNumber;
-
+        public int MoveValue;
     }
 }

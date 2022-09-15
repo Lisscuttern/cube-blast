@@ -143,6 +143,7 @@ public class CubeComponent : MonoBehaviour
             Destroy(playerView.GetRaycastCubes()[i].gameObject);
         }
         playerView.GetRaycastCubes().Clear();
+        
     }
 
     /// <summary>
@@ -202,6 +203,9 @@ public class CubeComponent : MonoBehaviour
         HitRight();
         LevelComponent levelComponent = GameManager.Instance.GetLevelComponent();
         levelComponent.GetGridComponent().StartCoroutine(levelComponent.GetGridComponent().Delay(1));
+        
+        
+        
         GameSetting gameSetting = GameManager.Instance.GetGameSetting();
         Sequence sequence = DOTween.Sequence();
         Vector3 targetScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);

@@ -6,9 +6,18 @@ public class LevelComponent : MonoBehaviour
 
     [SerializeField] private GridComponent m_gridComponent;
     [SerializeField] private UIGoalsPanel m_uiGoalPanel;
+    [SerializeField] private UIMovesPanel m_uiMovesPanel;
 
     #endregion
 
+    /// <summary>
+    /// This function return related ui moves panel
+    /// </summary>
+    /// <returns></returns>
+    public UIMovesPanel GetUIMovesPanel()
+    {
+        return m_uiMovesPanel;
+    }
     
     /// <summary>
     /// This function returen related goal panel

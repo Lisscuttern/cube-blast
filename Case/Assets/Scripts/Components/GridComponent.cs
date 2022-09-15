@@ -175,6 +175,9 @@ public class GridComponent : MonoBehaviour
                 }
             }
         }
+        
+        LevelComponent levelComponent = GameManager.Instance.GetLevelComponent();
+        levelComponent.GetUIMovesPanel().SetMoveValue();
     }
 
     /// <summary>

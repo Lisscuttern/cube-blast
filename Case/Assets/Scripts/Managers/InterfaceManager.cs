@@ -13,7 +13,7 @@ namespace PEAK
         
         [Header("Prefabs")]
         [SerializeField] private RectTransform m_currencyPrefab;
-        
+
         #endregion
     
         /// <summary>
@@ -38,6 +38,24 @@ namespace PEAK
                 Destroy(createdCurrency.gameObject);
             });
 
+            sequence.Play();
+        }
+        
+        /// <summary>
+        /// This function help for change canvas group state
+        /// </summary>
+        /// <param name="state"></param>
+        public void ChangePanelState(CanvasGroup canvasGroup, bool state)
+        {
+            if (DOTween.IsTweening(canvasGroup.GetInstanceID()))
+                return;
+
+            Sequence sequence = DOTween.Sequence();
+
+            sequence.Join(canvasGroup.DOFade(state ? 1 : 0, 0.25F));
+            sequence.OnComplete(() => { canvasGroup.blocksRaycasts = state; });
+
+            sequence.SetId(canvasGroup.GetInstanceID());
             sequence.Play();
         }
     }

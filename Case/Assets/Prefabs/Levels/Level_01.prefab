@@ -455,6 +455,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_gridComponent: {fileID: 2242409437286117320}
   m_uiGoalPanel: {fileID: 2242409438102039331}
+  m_uiMovesPanel: {fileID: 2242409438413080168}
 --- !u!1 &2242409438102039332
 GameObject:
   m_ObjectHideFlags: 0
@@ -764,6 +765,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f965f866634448fcb10b51cdf91c0dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_moveText: {fileID: 2242409437723842856}
 --- !u!1 &2242409438493542410
 GameObject:
   m_ObjectHideFlags: 0
