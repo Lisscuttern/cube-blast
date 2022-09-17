@@ -6,7 +6,8 @@ public class CubeComponent : MonoBehaviour
 {
     #region SerializeFields
 
-    [SerializeField] private EColorType m_EcolorType;
+    [SerializeField] private EColorType m_eColorType;
+    [SerializeField] private ECubeType m_eCubeType;
     [SerializeField] private SlotComponent m_slotComponent;
     
     [Header("Transforms")] 
@@ -138,7 +139,80 @@ public class CubeComponent : MonoBehaviour
         }
         Invoke("DestroyCubes", .5f);
     }
-    
+
+    /// <summary>
+    /// This function help for rocket animation
+    /// </summary>
+    private void RocketAnimation()
+    {
+        if (GetECubeType() == ECubeType.BASIC)
+            return;
+        if (GetECubeType() == ECubeType.LEFT)
+        {
+            transform.DOLocalMoveX(-10000, 10);
+        }
+        else
+        {
+            transform.DOLocalMoveX(10000, 10);
+
+        }
+    }
+
+    /// <summary>
+    /// This function help for start rocket mechanic
+    /// </summary>
+    private void StartRocket()
+    {
+        if (GetEColorType() != EColorType.NOCOLOR)
+            return;
+
+        if (GetECubeType() == ECubeType.LEFT)
+        {
+            for (int i = 0; i < playerView.GetCreatedCubeComponents().Count; i++)
+            {
+                CubeComponent cubeComponent = playerView.GetCreatedCubeComponents()[i];
+                if (GetSlotComponent().GetCubeCoordinates().y == cubeComponent.GetSlotComponent().GetCubeCoordinates().y)
+                {
+                    playerView.GetRocketTargetCubes().Add(cubeComponent);
+                }
+            }
+            for (int j = 0; j <  playerView.GetRocketTargetCubes().Count; j++)
+            {
+                CubeComponent cubeComponent = playerView.GetRocketTargetCubes()[j];
+
+                if (GetSlotComponent().GetCubeCoordinates().x > cubeComponent.GetSlotComponent().GetCubeCoordinates().x)
+                {
+                    playerView.GetRaycastCubes().Add(cubeComponent);
+                    playerView.GetCreatedCubeComponents().Remove(cubeComponent);
+                    cubeComponent.GetSlotComponent().UpdateSlot(false);
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < playerView.GetCreatedCubeComponents().Count; i++)
+            {
+                CubeComponent cubeComponent = playerView.GetCreatedCubeComponents()[i];
+                if (GetSlotComponent().GetCubeCoordinates().y == cubeComponent.GetSlotComponent().GetCubeCoordinates().y)
+                {
+                    playerView.GetRocketTargetCubes().Add(cubeComponent);
+                }
+            }
+            
+            for (int j = 0; j <  playerView.GetRocketTargetCubes().Count; j++)
+            {
+                CubeComponent cubeComponent = playerView.GetRocketTargetCubes()[j];
+
+                if (GetSlotComponent().GetCubeCoordinates().x < cubeComponent.GetSlotComponent().GetCubeCoordinates().x)
+                {
+                    playerView.GetRaycastCubes().Add(cubeComponent);
+                    playerView.GetCreatedCubeComponents().Remove(cubeComponent);
+                    cubeComponent.GetSlotComponent().UpdateSlot(false);
+                }
+            }
+        }
+        Invoke("DestroyCubes", .5f);
+    }
 
     /// <summary>
     /// This function help for destroy matched cubes and clear raycast cubes list
@@ -146,12 +220,14 @@ public class CubeComponent : MonoBehaviour
     private void DestroyCubes()
     {
         UpdateGoalValue();
+        RocketAnimation();
         for (int i = 0; i < playerView.GetRaycastCubes().Count; i++)
         {
             Destroy(playerView.GetRaycastCubes()[i].gameObject);
         }
         playerView.GetRaycastCubes().Clear();
-        
+        playerView.GetRocketTargetCubes().Clear();
+
     }
 
     /// <summary>
@@ -209,16 +285,15 @@ public class CubeComponent : MonoBehaviour
         HitLeft();
         HitUp();
         HitRight();
+        StartRocket();
+        
         LevelComponent levelComponent = GameManager.Instance.GetLevelComponent();
         levelComponent.GetGridComponent().StartCoroutine(levelComponent.GetGridComponent().Delay(1));
-        
-        
-        
+
         GameSetting gameSetting = GameManager.Instance.GetGameSetting();
         Sequence sequence = DOTween.Sequence();
         Vector3 targetScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
-        sequence.Join(
-            transform.DOPunchScale(targetScale * gameSetting.CubeScaleMultiply, gameSetting.CubeScaleDuration));
+        sequence.Join(transform.DOPunchScale(targetScale * gameSetting.CubeScaleMultiply, gameSetting.CubeScaleDuration));
     }
 
     /// <summary>
@@ -227,7 +302,7 @@ public class CubeComponent : MonoBehaviour
     /// <returns></returns>
     public EColorType GetEColorType()
     {
-        return m_EcolorType;
+        return m_eColorType;
     }
 
 
@@ -247,5 +322,14 @@ public class CubeComponent : MonoBehaviour
     public SlotComponent GetSlotComponent()
     {
         return m_slotComponent;
+    }
+
+    /// <summary>
+    /// This function return related e cube type
+    /// </summary>
+    /// <returns></returns>
+    public ECubeType GetECubeType()
+    {
+        return m_eCubeType;
     }
 }

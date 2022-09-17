@@ -61,7 +61,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a34cb0e4cdf2c4bcda1b41171521f62a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EcolorType: 5
+  m_eColorType: 5
+  m_eCubeType: 2
   m_slotComponent: {fileID: 0}
   m_canvas: {fileID: 0}
   m_currencySlot: {fileID: 0}

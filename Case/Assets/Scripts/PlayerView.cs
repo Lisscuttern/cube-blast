@@ -8,9 +8,11 @@ public class PlayerView : MonoBehaviour
     
     [SerializeField] private List<CubeComponent> m_raycastCubes;
 
+    [SerializeField] private List<CubeComponent> m_rocketTargetCubes;
 
-    
-    
+
+
+
     /// <summary>
     /// This function return related created cube components
     /// </summary>
@@ -18,6 +20,15 @@ public class PlayerView : MonoBehaviour
     public List<CubeComponent> GetRaycastCubes()
     {
         return m_raycastCubes;
+    }
+    
+    /// <summary>
+    /// This function return related crocket target components
+    /// </summary>
+    /// <returns></returns>
+    public List<CubeComponent> GetRocketTargetCubes()
+    {
+        return m_rocketTargetCubes;
     }
     
     /// <summary>
