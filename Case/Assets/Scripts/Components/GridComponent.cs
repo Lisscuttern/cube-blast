@@ -9,7 +9,8 @@ public class GridComponent : MonoBehaviour
 {
     #region SerializeFields
 
-    [Header("Game Area")] [SerializeField] private Vector2 m_size;
+    [Header("Game Area")]
+    [SerializeField] private Vector2 m_size;
 
     [SerializeField] private Transform m_CubeRoot;
     [SerializeField] private Transform m_ReserveCubeRoot;
@@ -18,13 +19,12 @@ public class GridComponent : MonoBehaviour
     [SerializeField] private List<SlotComponent> m_slots;
 
     [SerializeField] private List<SlotComponent> m_gameSlots;
+    [SerializeField] private List<SlotComponent> m_reserveSlots;
 
 
     [SerializeField] private List<SlotComponent> emptySlots;
     [SerializeField] private List<CubeComponent> cubesToMove;
-
-    [SerializeField] private UIGoalsPanel m_uiGoalPanel;
-
+    
     #endregion
 
     #region Private Fields
@@ -99,6 +99,7 @@ public class GridComponent : MonoBehaviour
 
                 SlotComponent slotComponent = Instantiate(m_slotComponent, m_ReserveCubeRoot);
                 m_slots.Add(slotComponent);
+                m_reserveSlots.Add(slotComponent);
                 slotComponent.transform.localPosition = targetLocalPosition;
                 slotComponent.SetCubeCoordinate(x, y + 9);
             }
@@ -130,30 +131,9 @@ public class GridComponent : MonoBehaviour
         FindEmptySlots();
     }
 
-    // /// <summary>
-    // /// This function help for find cubes to move
-    // /// </summary>
-    // private void FindCubesToMove()
-    // {
-    //     for (int i = 0; i < emptySlots.Count; i++)
-    //     {
-    //         for (int j = 0; j < playerView.GetCreatedCubeComponents().Count; j++)
-    //         {
-    //             CubeComponent cubeComponent = playerView.GetCreatedCubeComponents()[j];
-    //             if (cubeComponent.GetSlotComponent().GetCubeCoordinates().y > emptySlots[i].GetCubeCoordinates().y &&
-    //                 cubeComponent.GetSlotComponent().GetCubeCoordinates().x == emptySlots[i].GetCubeCoordinates().x)
-    //             {
-    //                 if (cubesToMove.Contains(cubeComponent))
-    //                     continue;
-    //                 
-    //                 emptySlots.Add(cubeComponent.GetSlotComponent());
-    //                 cubeComponent.GetSlotComponent().UpdateSlot(false);
-    //                 cubesToMove.Add(cubeComponent);
-    //             }
-    //         }
-    //     }
-    // }
-
+    /// <summary>
+    /// This function help for find cubes to move after matched function
+    /// </summary>
     private void FindCubesToMove()
     {
         for (int i = 0; i < playerView.GetCreatedCubeComponents().Count; i++)
@@ -226,6 +206,32 @@ public class GridComponent : MonoBehaviour
         }
         Invoke("FindCubesToMove", .1f);
         Invoke("UpdateCubesPositions",.5f);
+        Invoke("CreateCubeInsideReserveSlots",1);
+    }
+
+    /// <summary>
+    /// this function help for instantiate cube in reserve slot after update cube positions
+    /// </summary>
+    private void CreateCubeInsideReserveSlots()
+    {
+        GameSetting gameSettings = GameManager.Instance.GetGameSetting();
+        for (int i = 0; i < m_reserveSlots.Count; i++)
+        {
+            SlotComponent slotComponent = m_reserveSlots[i];
+            if (!slotComponent.GetIsSlotFull())
+            {
+                List<CubeComponent> cubeComponents = gameSettings.Cubes;
+
+                CubeComponent createdCube = Instantiate(cubeComponents[Random.Range(0, cubeComponents.Count)], m_ReserveCubeRoot);
+                
+                createdCube.transform.parent = slotComponent.transform;
+                slotComponent.UpdateSlot(true);
+                createdCube.SetSlotComponent(slotComponent);
+                playerView.GetCreatedCubeComponents().Add(createdCube);
+
+                createdCube.transform.localPosition = Vector3.zero;
+            }
+        }
     }
     
     /// <summary>

@@ -16,3 +16,4 @@ MonoBehaviour:
   Name: Game
   Prefab: {fileID: 2242409438067353877, guid: 0fdfcd3124e2e4d1c9d0197f65a96844, type: 3}
   GoalNumber: 2
+  MoveValue: 20
