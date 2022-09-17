@@ -68,10 +68,21 @@ public class GridComponent : MonoBehaviour
         {
             List<CubeComponent> cubeComponents = gameSettings.Cubes;
 
+            int balloonNumber = Random.Range(gameSettings.BalloonMinValue, gameSettings.BalloonMaxValue);
             int duckNumber = Random.Range(gameSettings.MinValue, gameSettings.MaxValue);
-            int number = Random.Range(gameSettings.MinValue, gameSettings.MaxValue);
+            int rocketNumber = Random.Range(gameSettings.MinValue, gameSettings.MaxValue);
 
-            if (duckNumber < gameSettings.MinValue + 2)
+            if (balloonNumber > gameSettings.BalloonMaxValue - 5)
+            {
+                CubeComponent createdCube = Instantiate(gameSettings.Balloon, m_CubeRoot);
+                createdCube.transform.parent = m_slots[i].transform;
+                m_slots[i].UpdateSlot(true);
+                createdCube.SetSlotComponent(m_slots[i]);
+                playerView.GetCreatedCubeComponents().Add(createdCube);
+                createdCube.transform.localPosition = Vector3.zero;
+            }
+            
+            else if (duckNumber < gameSettings.MinValue + 2)
             {
                 CubeComponent createdCube = Instantiate(gameSettings.Duck, m_CubeRoot);
                 createdCube.transform.parent = m_slots[i].transform;
@@ -81,7 +92,7 @@ public class GridComponent : MonoBehaviour
                 createdCube.transform.localPosition = Vector3.zero;
             }
 
-            else if (number > gameSettings.MaxValue - 3)
+            else if (rocketNumber > gameSettings.MaxValue - 3)
             {
                 int numberForRocket = Random.Range(0, 2);
                 if (numberForRocket == 1)

@@ -26,6 +26,9 @@ namespace PEAK
         
         [Header("Balloon")]
         public CubeComponent Balloon;
+        public int BalloonMinValue;
+        public int BalloonMaxValue;
+
 
 
 

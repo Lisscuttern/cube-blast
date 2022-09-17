@@ -157,6 +157,8 @@ public class CubeComponent : MonoBehaviour
         
         if (GetECubeType() == ECubeType.DUCK)
             return;
+        if (GetECubeType() == ECubeType.BALLOON)
+            return;
         
         if (GetECubeType() == ECubeType.LEFT)
         {
@@ -204,6 +206,8 @@ public class CubeComponent : MonoBehaviour
     /// </summary>
     private void StartRocket()
     {
+        if (GetECubeType() == ECubeType.BALLOON)
+            return;
         if (GetEColorType() != EColorType.NOCOLOR)
             return;
 
