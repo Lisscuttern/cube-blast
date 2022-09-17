@@ -1,3 +1,4 @@
+using System;
 using PEAK;
 using UnityEngine;
 using DG.Tweening;
@@ -16,15 +17,21 @@ public class CubeComponent : MonoBehaviour
         
     [Header("Prefabs")]
     [SerializeField] private RectTransform m_currencyPrefab;
-    
+
     #endregion
 
     #region Private Fields
 
     private PlayerView playerView => GameManager.Instance.GetPlayerView();
+    private bool duckCompolete = false;
 
     #endregion
-    
+
+    private void Update()
+    {
+        Duck();
+    }
+
     /// <summary>
     /// This function help for hit raycast to the left side
     /// </summary>
@@ -147,6 +154,10 @@ public class CubeComponent : MonoBehaviour
     {
         if (GetECubeType() == ECubeType.BASIC)
             return;
+        
+        if (GetECubeType() == ECubeType.DUCK)
+            return;
+        
         if (GetECubeType() == ECubeType.LEFT)
         {
             transform.DOLocalMoveX(-10000, 10);
@@ -159,12 +170,39 @@ public class CubeComponent : MonoBehaviour
     }
 
     /// <summary>
+    /// This function help for create duck mechanic
+    /// </summary>
+    private void Duck()
+    {
+        if (duckCompolete)
+            return;
+        if (GetEColorType() != EColorType.NOCOLOR)
+            return;
+
+        if (GetECubeType() == ECubeType.DUCK)
+        {
+            if (GetSlotComponent().GetCubeCoordinates().y == 0)
+            {
+                GetSlotComponent().UpdateSlot(false);
+                LevelComponent levelComponent = GameManager.Instance.GetLevelComponent();
+                levelComponent.GetGridComponent().StartCoroutine(levelComponent.GetGridComponent().Delay(.2f));
+                duckCompolete = true;
+            }
+        }
+    }
+
+    /// <summary>
     /// This function help for start rocket mechanic
     /// </summary>
     private void StartRocket()
     {
         if (GetEColorType() != EColorType.NOCOLOR)
             return;
+
+        if (GetECubeType() == ECubeType.DUCK)
+            return;
+
+        GetSlotComponent().UpdateSlot(false);
 
         if (GetECubeType() == ECubeType.LEFT)
         {
@@ -286,7 +324,7 @@ public class CubeComponent : MonoBehaviour
         HitUp();
         HitRight();
         StartRocket();
-        
+        //Duck();
         LevelComponent levelComponent = GameManager.Instance.GetLevelComponent();
         levelComponent.GetGridComponent().StartCoroutine(levelComponent.GetGridComponent().Delay(1));
 

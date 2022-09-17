@@ -2,5 +2,6 @@ public enum ECubeType
 {
     BASIC,
     LEFT,
-    RIGHT
+    RIGHT,
+    DUCK
 }

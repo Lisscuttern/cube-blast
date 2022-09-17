@@ -9,8 +9,7 @@ public class GridComponent : MonoBehaviour
 {
     #region SerializeFields
 
-    [Header("Game Area")]
-    [SerializeField] private Vector2 m_size;
+    [Header("Game Area")] [SerializeField] private Vector2 m_size;
 
     [SerializeField] private Transform m_CubeRoot;
     [SerializeField] private Transform m_ReserveCubeRoot;
@@ -24,7 +23,7 @@ public class GridComponent : MonoBehaviour
 
     [SerializeField] private List<SlotComponent> emptySlots;
     [SerializeField] private List<CubeComponent> cubesToMove;
-    
+
     #endregion
 
     #region Private Fields
@@ -69,12 +68,24 @@ public class GridComponent : MonoBehaviour
         {
             List<CubeComponent> cubeComponents = gameSettings.Cubes;
 
+            int duckNumber = Random.Range(gameSettings.MinValue, gameSettings.MaxValue);
             int number = Random.Range(gameSettings.MinValue, gameSettings.MaxValue);
-            if (number > gameSettings.MaxValue -3)
+
+            if (duckNumber < gameSettings.MinValue + 2)
+            {
+                CubeComponent createdCube = Instantiate(gameSettings.Duck, m_CubeRoot);
+                createdCube.transform.parent = m_slots[i].transform;
+                m_slots[i].UpdateSlot(true);
+                createdCube.SetSlotComponent(m_slots[i]);
+                playerView.GetCreatedCubeComponents().Add(createdCube);
+                createdCube.transform.localPosition = Vector3.zero;
+            }
+
+            else if (number > gameSettings.MaxValue - 3)
             {
                 int numberForRocket = Random.Range(0, 2);
                 if (numberForRocket == 1)
-                {          
+                {
                     CubeComponent createdCube = Instantiate(gameSettings.RocketSprites[0], m_CubeRoot);
                     createdCube.transform.parent = m_slots[i].transform;
                     m_slots[i].UpdateSlot(true);
@@ -92,9 +103,11 @@ public class GridComponent : MonoBehaviour
                     createdCube.transform.localPosition = Vector3.zero;
                 }
             }
+
             else
             {
-                CubeComponent createdCube = Instantiate(cubeComponents[Random.Range(0, cubeComponents.Count)], m_CubeRoot);
+                CubeComponent createdCube =
+                    Instantiate(cubeComponents[Random.Range(0, cubeComponents.Count)], m_CubeRoot);
                 createdCube.transform.parent = m_slots[i].transform;
                 m_slots[i].UpdateSlot(true);
                 createdCube.SetSlotComponent(m_slots[i]);
@@ -173,14 +186,14 @@ public class GridComponent : MonoBehaviour
                 {
                     if (cubesToMove.Contains(cubeComponent))
                         continue;
-                    
+
                     emptySlots.Add(cubeComponent.GetSlotComponent());
                     cubeComponent.GetSlotComponent().UpdateSlot(false);
                     cubesToMove.Add(cubeComponent);
                 }
             }
         }
-        
+
         LevelComponent levelComponent = GameManager.Instance.GetLevelComponent();
         levelComponent.GetUIMovesPanel().SetMoveValue();
     }
@@ -199,7 +212,7 @@ public class GridComponent : MonoBehaviour
                 if (slotComponent.GetCubeCoordinates().x == cubeComponent.GetSlotComponent().GetCubeCoordinates().x &&
                     slotComponent.GetCubeCoordinates().y < cubeComponent.GetSlotComponent().GetCubeCoordinates().y)
                 {
-                    if(slotComponent.GetIsSlotFull())
+                    if (slotComponent.GetIsSlotFull())
                         continue;
 
                     cubeComponent.transform.parent = slotComponent.transform;
@@ -210,6 +223,7 @@ public class GridComponent : MonoBehaviour
                 }
             }
         }
+
         emptySlots.Clear();
         cubesToMove.Clear();
     }
@@ -229,9 +243,10 @@ public class GridComponent : MonoBehaviour
                 emptySlots.Add(emptySlot);
             }
         }
+
         Invoke("FindCubesToMove", .1f);
-        Invoke("UpdateCubesPositions",.5f);
-        Invoke("CreateCubeInsideReserveSlots",1);
+        Invoke("UpdateCubesPositions", .2f);
+        Invoke("CreateCubeInsideReserveSlots", 1);
     }
 
     /// <summary>
@@ -252,7 +267,7 @@ public class GridComponent : MonoBehaviour
                 {
                     int numberForRocket = Random.Range(0, 1);
                     if (numberForRocket == 0)
-                    {          
+                    {
                         CubeComponent createdCube = Instantiate(gameSettings.RocketSprites[0], m_CubeRoot);
                         createdCube.transform.parent = slotComponent.transform;
                         slotComponent.UpdateSlot(true);
@@ -272,7 +287,8 @@ public class GridComponent : MonoBehaviour
                 }
                 else
                 {
-                    CubeComponent createdCube = Instantiate(cubeComponents[Random.Range(0, cubeComponents.Count)], m_CubeRoot);
+                    CubeComponent createdCube =
+                        Instantiate(cubeComponents[Random.Range(0, cubeComponents.Count)], m_CubeRoot);
                     createdCube.transform.parent = slotComponent.transform;
                     slotComponent.UpdateSlot(true);
                     createdCube.SetSlotComponent(slotComponent);
@@ -282,7 +298,7 @@ public class GridComponent : MonoBehaviour
             }
         }
     }
-    
+
     /// <summary>
     /// This function returen related slots
     /// </summary>

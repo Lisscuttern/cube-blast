@@ -21,6 +21,9 @@ namespace PEAK
         [Header("Rockets")]
         public List<CubeComponent>  RocketSprites;
 
+        [Header("Duck")]
+        public CubeComponent Duck;
+
         
         [Header("Sprites")]
         public Sprite RedSprite;

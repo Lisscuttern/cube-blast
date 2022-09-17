@@ -533,6 +533,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_createdCubeComponents: []
   m_raycastCubes: []
+  m_rocketTargetCubes: []
 --- !u!1 &1146980722
 GameObject:
   m_ObjectHideFlags: 0
