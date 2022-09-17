@@ -192,6 +192,14 @@ public class CubeComponent : MonoBehaviour
     }
 
     /// <summary>
+    /// This function help for start balloon mechanic
+    /// </summary>
+    private void Balloon()
+    {
+        
+    }
+
+    /// <summary>
     /// This function help for start rocket mechanic
     /// </summary>
     private void StartRocket()

@@ -23,8 +23,12 @@ namespace PEAK
 
         [Header("Duck")]
         public CubeComponent Duck;
-
         
+        [Header("Balloon")]
+        public CubeComponent Balloon;
+
+
+
         [Header("Sprites")]
         public Sprite RedSprite;
         public Sprite BlueSprite;
