@@ -31,6 +31,8 @@ public class CubeComponent : MonoBehaviour
     {
         RaycastHit hit;
 
+        if (GetEColorType() == EColorType.NOCOLOR)
+            return;
         if (Physics.Raycast(transform.position, Vector3.left, out hit, 95))
         {
             if (hit.collider.gameObject.tag != CommonTypes.CUBE_TAG)
@@ -58,6 +60,8 @@ public class CubeComponent : MonoBehaviour
     {
         RaycastHit hit;
 
+        if (GetEColorType() == EColorType.NOCOLOR)
+            return;
         if (Physics.Raycast(transform.position, Vector3.right, out hit, 95))
         {
             if (hit.collider.gameObject.tag != CommonTypes.CUBE_TAG)
@@ -85,6 +89,8 @@ public class CubeComponent : MonoBehaviour
     {
         RaycastHit hit;
 
+        if (GetEColorType() == EColorType.NOCOLOR)
+            return;
         if (Physics.Raycast(transform.position, Vector3.up, out hit, 95))
         {
             if (hit.collider.gameObject.tag != CommonTypes.CUBE_TAG)
@@ -110,6 +116,8 @@ public class CubeComponent : MonoBehaviour
     public void HitDown()
     {
         RaycastHit hit;
+        if (GetEColorType() == EColorType.NOCOLOR)
+            return;
 
         if (Physics.Raycast(transform.position, Vector3.down, out hit, 95))
         {

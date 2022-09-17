@@ -13,13 +13,16 @@ namespace PEAK
         public float CubeScaleDuration;
     
         public Level[] Levels;
+
         
-        public Sprite[] Sprites;
-
-
         public int MinGoalValue;
         public int MaxGoalValue;
 
+        [Header("Rockets")]
+        public List<CubeComponent>  RocketSprites;
+
+        
+        [Header("Sprites")]
         public Sprite RedSprite;
         public Sprite BlueSprite;
         public Sprite YellowSprite;
@@ -27,6 +30,11 @@ namespace PEAK
         public Sprite PurpleSprite;
         
         public Sprite BaseSprite;
+        
+        [Header("Random Values")]
+        public int MinValue;
+        public int MaxValue;
+
 
 
 

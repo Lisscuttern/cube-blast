@@ -5,4 +5,5 @@ public enum EColorType
     GREEN,
     BLUE,
     PURPLE,
+    NOCOLOR,
 }

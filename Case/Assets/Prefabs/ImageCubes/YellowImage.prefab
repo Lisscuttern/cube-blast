@@ -62,7 +62,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EcolorType: 1
-  m_cubeCoordinate: {x: 0, y: 0}
+  m_slotComponent: {fileID: 0}
+  m_canvas: {fileID: 0}
+  m_currencySlot: {fileID: 0}
+  m_currencyPrefab: {fileID: 0}
+  m_cubeParticleSprite: {fileID: 21300000, guid: 7ef188d58bf6a4c819235a9d620be243, type: 3}
 --- !u!114 &8795545838905767339
 MonoBehaviour:
   m_ObjectHideFlags: 0

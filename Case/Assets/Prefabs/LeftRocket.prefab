@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8375868735199751540
+--- !u!1 &8268290735601100226
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,26 +8,26 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8375868735199751543}
-  - component: {fileID: 8375868735199751536}
-  - component: {fileID: 3952995265366174037}
-  - component: {fileID: 8375868735199751537}
-  - component: {fileID: 8375868735199751542}
-  - component: {fileID: -6033080366546219879}
+  - component: {fileID: 8268290735601100227}
+  - component: {fileID: 8268290735601100230}
+  - component: {fileID: 2296376569944336014}
+  - component: {fileID: 8268290735601100229}
+  - component: {fileID: 8268290735601100228}
+  - component: {fileID: 5214985559523476844}
   m_Layer: 3
-  m_Name: RedImage
+  m_Name: LeftRocket
   m_TagString: Cube
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &8375868735199751543
+--- !u!224 &8268290735601100227
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8375868735199751540}
+  m_GameObject: {fileID: 8268290735601100226}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
@@ -41,39 +41,38 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &8375868735199751536
+--- !u!222 &8268290735601100230
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8375868735199751540}
+  m_GameObject: {fileID: 8268290735601100226}
   m_CullTransparentMesh: 1
---- !u!114 &3952995265366174037
+--- !u!114 &2296376569944336014
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8375868735199751540}
+  m_GameObject: {fileID: 8268290735601100226}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a34cb0e4cdf2c4bcda1b41171521f62a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EcolorType: 0
+  m_EcolorType: 5
   m_slotComponent: {fileID: 0}
   m_canvas: {fileID: 0}
   m_currencySlot: {fileID: 0}
   m_currencyPrefab: {fileID: 0}
-  m_cubeParticleSprite: {fileID: 21300000, guid: 7ef188d58bf6a4c819235a9d620be243, type: 3}
---- !u!114 &8375868735199751537
+--- !u!114 &8268290735601100229
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8375868735199751540}
+  m_GameObject: {fileID: 8268290735601100226}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
@@ -87,7 +86,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8e0badb111c714e4eb5877bb23d31993, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 800d6a6a021ba456181d107c5675a413, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -97,26 +96,26 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!65 &8375868735199751542
+--- !u!65 &8268290735601100228
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8375868735199751540}
+  m_GameObject: {fileID: 8268290735601100226}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 56.822113, y: 99.00575, z: 81.512505}
   m_Center: {x: 5.035473, y: -0.4797957, z: 4.935125}
---- !u!114 &-6033080366546219879
+--- !u!114 &5214985559523476844
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8375868735199751540}
+  m_GameObject: {fileID: 8268290735601100226}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
@@ -150,11 +149,11 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 8375868735199751537}
+  m_TargetGraphic: {fileID: 8268290735601100229}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3952995265366174037}
+      - m_Target: {fileID: 2296376569944336014}
         m_TargetAssemblyTypeName: CubeComponent, Assembly-CSharp
         m_MethodName: Select
         m_Mode: 1

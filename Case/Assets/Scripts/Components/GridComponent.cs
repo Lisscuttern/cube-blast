@@ -69,13 +69,38 @@ public class GridComponent : MonoBehaviour
         {
             List<CubeComponent> cubeComponents = gameSettings.Cubes;
 
-            CubeComponent createdCube = Instantiate(cubeComponents[Random.Range(0, cubeComponents.Count)], m_CubeRoot);
-            createdCube.transform.parent = m_slots[i].transform;
-            m_slots[i].UpdateSlot(true);
-            createdCube.SetSlotComponent(m_slots[i]);
-            playerView.GetCreatedCubeComponents().Add(createdCube);
-
-            createdCube.transform.localPosition = Vector3.zero;
+            int number = Random.Range(gameSettings.MinValue, gameSettings.MaxValue);
+            if (number > gameSettings.MaxValue -3)
+            {
+                int numberForRocket = Random.Range(0, 2);
+                if (numberForRocket == 1)
+                {          
+                    CubeComponent createdCube = Instantiate(gameSettings.RocketSprites[0], m_CubeRoot);
+                    createdCube.transform.parent = m_slots[i].transform;
+                    m_slots[i].UpdateSlot(true);
+                    createdCube.SetSlotComponent(m_slots[i]);
+                    playerView.GetCreatedCubeComponents().Add(createdCube);
+                    createdCube.transform.localPosition = Vector3.zero;
+                }
+                else
+                {
+                    CubeComponent createdCube = Instantiate(gameSettings.RocketSprites[1], m_CubeRoot);
+                    createdCube.transform.parent = m_slots[i].transform;
+                    m_slots[i].UpdateSlot(true);
+                    createdCube.SetSlotComponent(m_slots[i]);
+                    playerView.GetCreatedCubeComponents().Add(createdCube);
+                    createdCube.transform.localPosition = Vector3.zero;
+                }
+            }
+            else
+            {
+                CubeComponent createdCube = Instantiate(cubeComponents[Random.Range(0, cubeComponents.Count)], m_CubeRoot);
+                createdCube.transform.parent = m_slots[i].transform;
+                m_slots[i].UpdateSlot(true);
+                createdCube.SetSlotComponent(m_slots[i]);
+                playerView.GetCreatedCubeComponents().Add(createdCube);
+                createdCube.transform.localPosition = Vector3.zero;
+            }
         }
     }
 
@@ -222,14 +247,38 @@ public class GridComponent : MonoBehaviour
             {
                 List<CubeComponent> cubeComponents = gameSettings.Cubes;
 
-                CubeComponent createdCube = Instantiate(cubeComponents[Random.Range(0, cubeComponents.Count)], m_ReserveCubeRoot);
-                
-                createdCube.transform.parent = slotComponent.transform;
-                slotComponent.UpdateSlot(true);
-                createdCube.SetSlotComponent(slotComponent);
-                playerView.GetCreatedCubeComponents().Add(createdCube);
-
-                createdCube.transform.localPosition = Vector3.zero;
+                int number = Random.Range(gameSettings.MinValue, gameSettings.MaxValue);
+                if (number > gameSettings.MaxValue - 10)
+                {
+                    int numberForRocket = Random.Range(0, 1);
+                    if (numberForRocket == 0)
+                    {          
+                        CubeComponent createdCube = Instantiate(gameSettings.RocketSprites[0], m_CubeRoot);
+                        createdCube.transform.parent = m_slots[i].transform;
+                        m_slots[i].UpdateSlot(true);
+                        createdCube.SetSlotComponent(m_slots[i]);
+                        playerView.GetCreatedCubeComponents().Add(createdCube);
+                        createdCube.transform.localPosition = Vector3.zero;
+                    }
+                    else
+                    {
+                        CubeComponent createdCube = Instantiate(gameSettings.RocketSprites[1], m_CubeRoot);
+                        createdCube.transform.parent = m_slots[i].transform;
+                        m_slots[i].UpdateSlot(true);
+                        createdCube.SetSlotComponent(m_slots[i]);
+                        playerView.GetCreatedCubeComponents().Add(createdCube);
+                        createdCube.transform.localPosition = Vector3.zero;
+                    }
+                }
+                else
+                {
+                    CubeComponent createdCube = Instantiate(cubeComponents[Random.Range(0, cubeComponents.Count)], m_CubeRoot);
+                    createdCube.transform.parent = m_slots[i].transform;
+                    m_slots[i].UpdateSlot(true);
+                    createdCube.SetSlotComponent(m_slots[i]);
+                    playerView.GetCreatedCubeComponents().Add(createdCube);
+                    createdCube.transform.localPosition = Vector3.zero;
+                }
             }
         }
     }

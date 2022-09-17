@@ -8,6 +8,7 @@ namespace PEAK
 
         [SerializeField] private GameSetting m_gameSetting;
         [SerializeField] private PlayerView m_playerView;
+        [SerializeField] private EGameState m_eGameState;
 
 
         #endregion
@@ -30,6 +31,15 @@ namespace PEAK
         {
             Level currentLevel = LevelService.GetCurrentLevel();
             levelComponent = Instantiate(currentLevel.Prefab);
+        }
+        
+        /// <summary>
+        /// This function help for set game state
+        /// </summary>
+        /// <param name="eGameState"></param>
+        public void ChangeGameState(EGameState eGameState)
+        {
+            m_eGameState = eGameState;
         }
 
         /// <summary>
@@ -57,6 +67,15 @@ namespace PEAK
         public LevelComponent GetLevelComponent()
         {
             return levelComponent;
+        }
+
+        /// <summary>
+        /// This function return related e game state
+        /// </summary>
+        /// <returns></returns>
+        public EGameState GetEGameState()
+        {
+            return m_eGameState;
         }
     }
 }

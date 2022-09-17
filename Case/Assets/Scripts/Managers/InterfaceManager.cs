@@ -14,6 +14,9 @@ namespace PEAK
         [Header("Prefabs")]
         [SerializeField] private RectTransform m_currencyPrefab;
 
+        [Header("Canvas Groups")]
+        [SerializeField] private CanvasGroup m_winPanelCanvasGroup;
+
         #endregion
     
         /// <summary>
@@ -57,6 +60,15 @@ namespace PEAK
 
             sequence.SetId(canvasGroup.GetInstanceID());
             sequence.Play();
+        }
+
+        /// <summary>
+        /// This function return related win panel canvas group
+        /// </summary>
+        /// <returns></returns>
+        public CanvasGroup GetWinPanelCanvasGroup()
+        {
+            return m_winPanelCanvasGroup;
         }
     }
 }
