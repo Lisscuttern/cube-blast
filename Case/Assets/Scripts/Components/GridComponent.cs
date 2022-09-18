@@ -210,6 +210,40 @@ public class GridComponent : MonoBehaviour
     }
 
     /// <summary>
+    /// This function help for instantiate rocket on game area
+    /// </summary>
+    private void InstantiateRocket()
+    {
+        GameSetting gameSettings = GameManager.Instance.GetGameSetting();
+        for (int i = 0; i < m_gameSlots.Count; i++)
+        {
+            SlotComponent slotComponent = m_gameSlots[i];
+            if (slotComponent.gameObject.transform.childCount == 0)
+            {
+                int numberForRocket = Random.Range(0, 2);
+                if (numberForRocket == 1)
+                {
+                    CubeComponent createdCube = Instantiate(gameSettings.RocketSprites[0], m_CubeRoot);
+                    createdCube.transform.parent = m_slots[i].transform;
+                    m_slots[i].UpdateSlot(true);
+                    createdCube.SetSlotComponent(m_slots[i]);
+                    playerView.GetCreatedCubeComponents().Add(createdCube);
+                    createdCube.transform.localPosition = Vector3.zero;
+                }
+                else
+                {
+                    CubeComponent createdCube = Instantiate(gameSettings.RocketSprites[1], m_CubeRoot);
+                    createdCube.transform.parent = m_slots[i].transform;
+                    m_slots[i].UpdateSlot(true);
+                    createdCube.SetSlotComponent(m_slots[i]);
+                    playerView.GetCreatedCubeComponents().Add(createdCube);
+                    createdCube.transform.localPosition = Vector3.zero;
+                }
+            }
+        }
+    }
+
+    /// <summary>
     /// This function help for update cube positions after matched cube
     /// </summary>
     private void UpdateCubesPositions()
@@ -225,9 +259,15 @@ public class GridComponent : MonoBehaviour
                 {
                     if (slotComponent.GetIsSlotFull())
                         continue;
-
+                    Sequence sequence = DOTween.Sequence();
                     cubeComponent.transform.parent = slotComponent.transform;
-                    cubeComponent.transform.DOLocalMoveY(1, 0.2f);
+                    sequence.Join(cubeComponent.transform.DOLocalMoveY(1, 0.2f));
+
+                    sequence.OnComplete(() =>
+                    {
+                        Invoke("InstantiateRocket",.3f);
+                    });
+                    sequence.Play();
                     cubeComponent.SetSlotComponent(slotComponent);
                     cubeComponent.GetSlotComponent().UpdateSlot(true);
                     //emptySlots.Remove(slotComponent);
