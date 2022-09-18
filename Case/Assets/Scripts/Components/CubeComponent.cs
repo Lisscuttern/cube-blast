@@ -1,5 +1,3 @@
-using System;
-using Cysharp.Threading.Tasks.Triggers;
 using PEAK;
 using UnityEngine;
 using DG.Tweening;
@@ -27,12 +25,7 @@ public class CubeComponent : MonoBehaviour
     private bool duckCompolete = false;
 
     #endregion
-
-    private void Start()
-    {
-        
-    }
-
+    
     private void Update()
     {
         Duck();
@@ -61,31 +54,29 @@ public class CubeComponent : MonoBehaviour
                 playerView.GetRaycastCubes().Add(cubeComponent);
                 playerView.GetCreatedCubeComponents().Remove(cubeComponent);
                 cubeComponent.Select();
-
                 cubeComponent.GetSlotComponent().UpdateSlot(false);
-
-                // RaycastHit balloon;
-                // if (Physics.Raycast(cubeComponent.transform.position, Vector3.left, out balloon, 95))
-                // {
-                //     CubeComponent balloonCubeComponent = balloon.collider.GetComponent<CubeComponent>();
-                //
-                //     if (balloonCubeComponent.GetECubeType() == ECubeType.BALLOON)
-                //     {
-                //         if (playerView.GetRaycastCubes().Contains(balloonCubeComponent))
-                //             return;
-                //         Debug.Log("left ın balonu");
-                //
-                //         playerView.GetRaycastCubes().Add(balloonCubeComponent);
-                //         playerView.GetCreatedCubeComponents().Remove(balloonCubeComponent);
-                //
-                //         balloonCubeComponent.GetSlotComponent().UpdateSlot(false);
-                //
-                //     }
-                // }
-
             }
         }
 
+        if (playerView.GetRaycastCubes().Count > 0)
+        {
+            RaycastHit balloon;
+            if (Physics.Raycast(transform.position, Vector3.left, out balloon, 95))
+            {
+                CubeComponent balloonCubeComponent = balloon.collider.GetComponent<CubeComponent>();
+                
+                if (balloonCubeComponent.GetECubeType() == ECubeType.BALLOON)
+                {
+                    if (playerView.GetRaycastCubes().Contains(balloonCubeComponent))
+                        return;
+                    playerView.GetRaycastCubes().Add(balloonCubeComponent);
+                    playerView.GetCreatedCubeComponents().Remove(balloonCubeComponent);
+                
+                    balloonCubeComponent.GetSlotComponent().UpdateSlot(false);
+                
+                }
+            }
+        }
         Invoke("DestroyCubes", .6f);
     }
 
@@ -114,26 +105,26 @@ public class CubeComponent : MonoBehaviour
                 cubeComponent.Select();
 
                 cubeComponent.GetSlotComponent().UpdateSlot(false);
+            }
+        }
+        if (playerView.GetRaycastCubes().Count > 0)
+        {
+            RaycastHit balloon;
+            if (Physics.Raycast(transform.position, Vector3.right, out balloon, 95))
+            {
+                CubeComponent balloonCubeComponent = balloon.collider.GetComponent<CubeComponent>();
                 
-                // RaycastHit balloon;
-                // if (Physics.Raycast(cubeComponent.transform.position, Vector3.right, out balloon, 95))
-                // {
-                //     CubeComponent balloonCubeComponent = balloon.collider.GetComponent<CubeComponent>();
-                //
-                //     if (balloonCubeComponent.GetECubeType() == ECubeType.BALLOON)
-                //     {
-                //         if (playerView.GetRaycastCubes().Contains(balloonCubeComponent))
-                //             return;
-                //         Debug.Log("right  ın balonu");
-                //
-                //         playerView.GetRaycastCubes().Add(balloonCubeComponent);
-                //         playerView.GetCreatedCubeComponents().Remove(balloonCubeComponent);
-                //
-                //         balloonCubeComponent.GetSlotComponent().UpdateSlot(false);
-                //
-                //     }
-                // }
+                if (balloonCubeComponent.GetECubeType() == ECubeType.BALLOON)
+                {
+                    if (playerView.GetRaycastCubes().Contains(balloonCubeComponent))
+                        return;
 
+                    playerView.GetRaycastCubes().Add(balloonCubeComponent);
+                    playerView.GetCreatedCubeComponents().Remove(balloonCubeComponent);
+                
+                    balloonCubeComponent.GetSlotComponent().UpdateSlot(false);
+                
+                }
             }
         }
 
@@ -164,26 +155,26 @@ public class CubeComponent : MonoBehaviour
                 playerView.GetCreatedCubeComponents().Remove(cubeComponent);
                 cubeComponent.Select();
                 cubeComponent.GetSlotComponent().UpdateSlot(false);
+            }
+        }
+        if (playerView.GetRaycastCubes().Count > 0)
+        {
+            RaycastHit balloon;
+            if (Physics.Raycast(transform.position, Vector3.up, out balloon, 95))
+            {
+                CubeComponent balloonCubeComponent = balloon.collider.GetComponent<CubeComponent>();
                 
-                // RaycastHit balloon;
-                // if (Physics.Raycast(cubeComponent.transform.position, Vector3.up, out balloon, 95))
-                // {
-                //     CubeComponent balloonCubeComponent = balloon.collider.GetComponent<CubeComponent>();
-                //
-                //     if (balloonCubeComponent.GetECubeType() == ECubeType.BALLOON)
-                //     {
-                //         if (playerView.GetRaycastCubes().Contains(balloonCubeComponent))
-                //             return;
-                //         Debug.Log("up ın balonu");
-                //
-                //         playerView.GetRaycastCubes().Add(balloonCubeComponent);
-                //         playerView.GetCreatedCubeComponents().Remove(balloonCubeComponent);
-                //
-                //         balloonCubeComponent.GetSlotComponent().UpdateSlot(false);
-                //
-                //     }
-                // }
+                if (balloonCubeComponent.GetECubeType() == ECubeType.BALLOON)
+                {
+                    if (playerView.GetRaycastCubes().Contains(balloonCubeComponent))
+                        return;
 
+                    playerView.GetRaycastCubes().Add(balloonCubeComponent);
+                    playerView.GetCreatedCubeComponents().Remove(balloonCubeComponent);
+                
+                    balloonCubeComponent.GetSlotComponent().UpdateSlot(false);
+                
+                }
             }
         }
         Invoke("DestroyCubes", .6f);
@@ -213,26 +204,27 @@ public class CubeComponent : MonoBehaviour
                 playerView.GetRaycastCubes().Add(cubeComponent);
                 playerView.GetCreatedCubeComponents().Remove(cubeComponent);
                 cubeComponent.Select();
-
                 cubeComponent.GetSlotComponent().UpdateSlot(false);
+            }
+        }
+        if (playerView.GetRaycastCubes().Count > 0)
+        {
+            RaycastHit balloon;
+            if (Physics.Raycast(transform.position, Vector3.down, out balloon, 95))
+            {
+                CubeComponent balloonCubeComponent = balloon.collider.GetComponent<CubeComponent>();
                 
-                // RaycastHit balloon;
-                // if (Physics.Raycast(cubeComponent.transform.position, Vector3.down, out balloon, 95))
-                // {
-                //     CubeComponent balloonCubeComponent = balloon.collider.GetComponent<CubeComponent>();
-                //
-                //     if (balloonCubeComponent.GetECubeType() == ECubeType.BALLOON)
-                //     {
-                //         if (playerView.GetRaycastCubes().Contains(balloonCubeComponent))
-                //             return;
-                //         Debug.Log("down ın balonu");
-                //         playerView.GetRaycastCubes().Add(balloonCubeComponent);
-                //         playerView.GetCreatedCubeComponents().Remove(balloonCubeComponent);
-                //         balloonCubeComponent.GetSlotComponent().UpdateSlot(false);
-                //
-                //     }
-                // }
+                if (balloonCubeComponent.GetECubeType() == ECubeType.BALLOON)
+                {
+                    if (playerView.GetRaycastCubes().Contains(balloonCubeComponent))
+                        return;
 
+                    playerView.GetRaycastCubes().Add(balloonCubeComponent);
+                    playerView.GetCreatedCubeComponents().Remove(balloonCubeComponent);
+                
+                    balloonCubeComponent.GetSlotComponent().UpdateSlot(false);
+                
+                }
             }
         }
         Invoke("DestroyCubes", .6f);
