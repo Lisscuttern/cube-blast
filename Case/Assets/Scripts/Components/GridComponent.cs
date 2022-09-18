@@ -1,9 +1,12 @@
+using System;
 using PEAK;
 using DG.Tweening;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using Random = UnityEngine.Random;
+using Sequence = DG.Tweening.Sequence;
 
 public class GridComponent : MonoBehaviour
 {
@@ -29,6 +32,7 @@ public class GridComponent : MonoBehaviour
     #region Private Fields
 
     private PlayerView playerView => GameManager.Instance.GetPlayerView();
+    private bool rocketIns = false;
 
     #endregion
 
@@ -36,6 +40,11 @@ public class GridComponent : MonoBehaviour
     {
         CreateCubes();
         Invoke("CreateReverseCubes", .5f);
+    }
+
+    private void Update()
+    {
+        InstantiateRocket();
     }
 
     /// <summary>
@@ -214,6 +223,8 @@ public class GridComponent : MonoBehaviour
     /// </summary>
     private void InstantiateRocket()
     {
+        if (!rocketIns)
+            return;
         GameSetting gameSettings = GameManager.Instance.GetGameSetting();
         for (int i = 0; i < m_gameSlots.Count; i++)
         {
@@ -224,23 +235,26 @@ public class GridComponent : MonoBehaviour
                 if (numberForRocket == 1)
                 {
                     CubeComponent createdCube = Instantiate(gameSettings.RocketSprites[0], m_CubeRoot);
-                    createdCube.transform.parent = m_slots[i].transform;
-                    m_slots[i].UpdateSlot(true);
-                    createdCube.SetSlotComponent(m_slots[i]);
-                    playerView.GetCreatedCubeComponents().Add(createdCube);
+                    createdCube.transform.parent = slotComponent.transform;
                     createdCube.transform.localPosition = Vector3.zero;
+
+                    slotComponent.UpdateSlot(true);
+                    createdCube.SetSlotComponent(slotComponent);
+                    playerView.GetCreatedCubeComponents().Add(createdCube);
                 }
                 else
                 {
                     CubeComponent createdCube = Instantiate(gameSettings.RocketSprites[1], m_CubeRoot);
-                    createdCube.transform.parent = m_slots[i].transform;
-                    m_slots[i].UpdateSlot(true);
-                    createdCube.SetSlotComponent(m_slots[i]);
-                    playerView.GetCreatedCubeComponents().Add(createdCube);
+                    createdCube.transform.parent = slotComponent.transform;
                     createdCube.transform.localPosition = Vector3.zero;
+                    slotComponent.UpdateSlot(true);
+                    createdCube.SetSlotComponent(slotComponent);
+                    playerView.GetCreatedCubeComponents().Add(createdCube);
                 }
             }
         }
+
+        rocketIns = false;
     }
 
     /// <summary>
@@ -259,14 +273,13 @@ public class GridComponent : MonoBehaviour
                 {
                     if (slotComponent.GetIsSlotFull())
                         continue;
+                    
+                    if(cubeComponent == null)
+                        continue;
                     Sequence sequence = DOTween.Sequence();
                     cubeComponent.transform.parent = slotComponent.transform;
                     sequence.Join(cubeComponent.transform.DOLocalMoveY(1, 0.2f));
-
-                    sequence.OnComplete(() =>
-                    {
-                        Invoke("InstantiateRocket",.3f);
-                    });
+                    
                     sequence.Play();
                     cubeComponent.SetSlotComponent(slotComponent);
                     cubeComponent.GetSlotComponent().UpdateSlot(true);
@@ -277,6 +290,7 @@ public class GridComponent : MonoBehaviour
 
         emptySlots.Clear();
         cubesToMove.Clear();
+        rocketIns = true;
     }
 
     /// <summary>
@@ -348,6 +362,15 @@ public class GridComponent : MonoBehaviour
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// This function returen related cubes to move list
+    /// </summary>
+    /// <returns></returns>
+    public List<CubeComponent> GetCubesToMove()
+    {
+        return cubesToMove;
     }
 
     /// <summary>

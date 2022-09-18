@@ -1,3 +1,5 @@
+using System;
+using Cysharp.Threading.Tasks.Triggers;
 using PEAK;
 using UnityEngine;
 using DG.Tweening;
@@ -25,6 +27,11 @@ public class CubeComponent : MonoBehaviour
     private bool duckCompolete = false;
 
     #endregion
+
+    private void Start()
+    {
+        
+    }
 
     private void Update()
     {
@@ -79,7 +86,7 @@ public class CubeComponent : MonoBehaviour
             }
         }
 
-        Invoke("DestroyCubes", .5f);
+        Invoke("DestroyCubes", .6f);
     }
 
     /// <summary>
@@ -130,7 +137,7 @@ public class CubeComponent : MonoBehaviour
             }
         }
 
-        Invoke("DestroyCubes", .5f);
+        Invoke("DestroyCubes", .6f);
     }
 
     /// <summary>
@@ -179,7 +186,7 @@ public class CubeComponent : MonoBehaviour
 
             }
         }
-        Invoke("DestroyCubes", .5f);
+        Invoke("DestroyCubes", .6f);
     }
 
     /// <summary>
@@ -228,7 +235,7 @@ public class CubeComponent : MonoBehaviour
 
             }
         }
-        Invoke("DestroyCubes", .5f);
+        Invoke("DestroyCubes", .6f);
     }
 
     /// <summary>
@@ -244,15 +251,22 @@ public class CubeComponent : MonoBehaviour
         if (GetECubeType() == ECubeType.BALLOON)
             return;
         
+        Sequence sequence = DOTween.Sequence();
+
         if (GetECubeType() == ECubeType.LEFT)
         {
-            transform.DOLocalMoveX(-10000, 10);
+            sequence.Join(transform.DOLocalMoveX(-5000, 5));
         }
         else
         {
-            transform.DOLocalMoveX(10000, 10);
+            sequence.Join(transform.DOLocalMoveX(5000, 5));
 
         }
+
+        sequence.OnComplete(() =>
+        {
+            Destroy(gameObject);
+        });
     }
 
     /// <summary>
@@ -275,14 +289,6 @@ public class CubeComponent : MonoBehaviour
                 duckCompolete = true;
             }
         }
-    }
-
-    /// <summary>
-    /// This function help for start balloon mechanic
-    /// </summary>
-    private void Balloon()
-    {
-        
     }
 
     /// <summary>
@@ -345,7 +351,7 @@ public class CubeComponent : MonoBehaviour
                 }
             }
         }
-        Invoke("DestroyCubes", .5f);
+        Invoke("DestroyCubes", .6f);
     }
 
     /// <summary>
@@ -355,13 +361,13 @@ public class CubeComponent : MonoBehaviour
     {
         UpdateGoalValue();
         RocketAnimation();
+        
         for (int i = 0; i < playerView.GetRaycastCubes().Count; i++)
         {
             Destroy(playerView.GetRaycastCubes()[i].gameObject);
         }
         playerView.GetRaycastCubes().Clear();
         playerView.GetRocketTargetCubes().Clear();
-
     }
 
     /// <summary>
