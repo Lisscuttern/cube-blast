@@ -353,6 +353,7 @@ public class CubeComponent : MonoBehaviour
                 continue;
             Destroy(playerView.GetRaycastCubes()[i].gameObject);
         }
+        
         playerView.GetRaycastCubes().Clear();
         playerView.GetRocketTargetCubes().Clear();
         

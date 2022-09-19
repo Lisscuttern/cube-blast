@@ -5,9 +5,7 @@ namespace PEAK
     public class UIWinPanel : MonoBehaviour
     {
         #region SerializeFields
-
-        [SerializeField] private ParticleSystem m_confetti;
-
+        
         [Header("Canvas Group")] 
         [SerializeField] private CanvasGroup m_winPanel;
 
@@ -20,9 +18,8 @@ namespace PEAK
         public void WinGame()
         {
             GameManager.Instance.ChangeGameState(EGameState.WIN);
-            m_confetti.gameObject.SetActive(true);
             InterfaceManager.Instance.ChangePanelState(m_winPanel, true);
-            m_confetti.Play();
+            GameManager.Instance.ChangeGameState(EGameState.NONE);
         }
         
         /// <summary>

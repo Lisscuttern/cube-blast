@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace PEAK
@@ -10,8 +11,13 @@ namespace PEAK
         [SerializeField] private CanvasGroup m_losePanel;
 
         #endregion
-    
-    
+
+        private void Start()
+        {
+            InterfaceManager.Instance.ChangePanelState(m_losePanel,false);
+        }
+
+
         private void Update()
         {
             if (GameManager.Instance.GetEGameState() == EGameState.LOSE)

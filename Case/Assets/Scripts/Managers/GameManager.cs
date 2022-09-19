@@ -31,6 +31,7 @@ namespace PEAK
         {
             Level currentLevel = LevelService.GetCurrentLevel();
             levelComponent = Instantiate(currentLevel.Prefab);
+            ChangeGameState(EGameState.NONE);
         }
         
         /// <summary>

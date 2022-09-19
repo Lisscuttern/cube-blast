@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -16,7 +17,13 @@ namespace PEAK
         [SerializeField] private UIWinPanel m_uiWinPanel;
 
         #endregion
-    
+
+
+        private void Start()
+        {
+            ChangePanelState(m_winPanelCanvasGroup,false);
+        }
+
         /// <summary>
         /// This function helper for fly currency animation to target currency icon.
         /// </summary>

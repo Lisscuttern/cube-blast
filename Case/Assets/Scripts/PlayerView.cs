@@ -1,3 +1,4 @@
+using System;
 using PEAK;
 using UnityEngine;
 using System.Collections.Generic;
@@ -19,16 +20,22 @@ public class PlayerView : MonoBehaviour
 
     #endregion
 
+    private void Start()
+    {
+        levelCompleteTarget = 0;
+    }
+
     private void Update()
     {
         LevelComponent levelComponent = GameManager.Instance.GetLevelComponent();
 
-        if (GetLevelCompleteTarget() == 2)
+        if (GetLevelCompleteTarget() == 2 )
         {
             InterfaceManager.Instance.GetUIWinPanel().WinGame();
+            levelCompleteTarget = 0;
         }
 
-        if (levelComponent.GetUIMovesPanel().GetMoveValue() <= 0)
+        else if (levelComponent.GetUIMovesPanel().GetMoveValue() <= 0)
         {
             GameManager.Instance.ChangeGameState(EGameState.LOSE);
         }
@@ -48,7 +55,7 @@ public class PlayerView : MonoBehaviour
             UIGoalItem uiGoalItem = levelComponent.GetUiGoalPanel().GetUıGoalItems()[i];
 
             if (uiGoalItem.GetGoalIsCompleted())
-                return;
+                continue;
             if (uiGoalItem.GetGoalValue() == 0)
             {
                 EarnLevelCompleteTarget();
