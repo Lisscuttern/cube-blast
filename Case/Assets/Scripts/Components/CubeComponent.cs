@@ -349,6 +349,8 @@ public class CubeComponent : MonoBehaviour
         
         for (int i = 0; i < playerView.GetRaycastCubes().Count; i++)
         {
+            if(playerView.GetRaycastCubes()[i] == null)
+                continue;
             Destroy(playerView.GetRaycastCubes()[i].gameObject);
         }
         playerView.GetRaycastCubes().Clear();
