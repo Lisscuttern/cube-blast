@@ -1,17 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class PlayerView : MonoBehaviour
 {
-    [SerializeField] private List<CubeComponent> m_createdCubeComponents;
-    
-    [SerializeField] private List<CubeComponent> m_raycastCubes;
+    #region SerializeFields
 
+    [SerializeField] private List<CubeComponent> m_createdCubeComponents;
+    [SerializeField] private List<CubeComponent> m_raycastCubes;
     [SerializeField] private List<CubeComponent> m_rocketTargetCubes;
 
-
-
+    #endregion
+    
 
     /// <summary>
     /// This function return related created cube components

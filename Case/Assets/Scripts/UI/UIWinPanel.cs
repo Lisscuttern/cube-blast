@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace PEAK
@@ -13,15 +12,7 @@ namespace PEAK
         [SerializeField] private CanvasGroup m_winPanel;
 
         #endregion
-
-        private void Update()
-        {
-            // if (GameManager.Instance.GetEGameState() == EGameState.WIN)
-            // {
-            //     WinGame();
-            //     GameManager.Instance.ChangeGameState(EGameState.NONE);
-            // }
-        }
+        
 
         /// <summary>
         /// This function help for open win panel when complete level

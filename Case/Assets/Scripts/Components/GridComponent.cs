@@ -1,10 +1,8 @@
-using System;
 using PEAK;
 using DG.Tweening;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using Random = UnityEngine.Random;
 using Sequence = DG.Tweening.Sequence;
 
@@ -283,7 +281,6 @@ public class GridComponent : MonoBehaviour
                     sequence.Play();
                     cubeComponent.SetSlotComponent(slotComponent);
                     cubeComponent.GetSlotComponent().UpdateSlot(true);
-                    //emptySlots.Remove(slotComponent);
                 }
             }
         }
