@@ -19,6 +19,7 @@ namespace PEAK
         /// </summary>
         public void WinGame()
         {
+            GameManager.Instance.ChangeGameState(EGameState.WIN);
             m_confetti.gameObject.SetActive(true);
             InterfaceManager.Instance.ChangePanelState(m_winPanel, true);
             m_confetti.Play();

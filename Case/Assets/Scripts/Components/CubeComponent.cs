@@ -353,6 +353,7 @@ public class CubeComponent : MonoBehaviour
         }
         playerView.GetRaycastCubes().Clear();
         playerView.GetRocketTargetCubes().Clear();
+        
     }
 
     /// <summary>
@@ -364,14 +365,18 @@ public class CubeComponent : MonoBehaviour
         for (int i = 0; i < levelComponent.GetUiGoalPanel().GetUıGoalItems().Count; i++)
         {
             UIGoalItem uiGoalItem = levelComponent.GetUiGoalPanel().GetUıGoalItems()[i];
+            
             for (int j = 0; j < playerView.GetRaycastCubes().Count; j++)
             {
                 CubeComponent cubeComponent = playerView.GetRaycastCubes()[j];
                 if (cubeComponent.GetEColorType() == uiGoalItem.GetEColor())
                 {
+                    
                     GameSetting gameSetting = GameManager.Instance.GetGameSetting();
                     RectTransform currentRect = gameSetting.ChangeRectTransform(cubeComponent.GetEColorType());
                     InterfaceManager.Instance.FlyCurrencyFromWorld(uiGoalItem.GetSlot(),Vector3.zero, currentRect);
+                    if (uiGoalItem.GetGoalValue() == 0)
+                        continue;
                     uiGoalItem.UpdateGoalValue();
                 }
             }
@@ -383,6 +388,10 @@ public class CubeComponent : MonoBehaviour
     /// </summary>
     public void Select()
     {
+        if (GameManager.Instance.GetEGameState() != EGameState.NONE)
+            return;
+        if (!playerView.GetIsCanPlay())
+            return;
         HitDown();
         HitLeft();
         HitUp();

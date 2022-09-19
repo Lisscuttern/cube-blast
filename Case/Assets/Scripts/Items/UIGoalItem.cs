@@ -19,6 +19,7 @@ public class UIGoalItem : MonoBehaviour
     #region Private Fields
 
     private GameSetting gameSetting => GameManager.Instance.GetGameSetting();
+    private bool goalIsCompleted = false;
 
     #endregion
 
@@ -39,6 +40,15 @@ public class UIGoalItem : MonoBehaviour
     }
 
     /// <summary>
+    /// This function help for set goal is completed
+    /// </summary>
+    /// <param name="value"></param>
+    public void SetGoalIsCompleted(bool value)
+    {
+        goalIsCompleted = value;
+    }
+
+    /// <summary>
     /// This function help for update goal text
     /// </summary>
     /// <param name="value"></param>
@@ -46,6 +56,15 @@ public class UIGoalItem : MonoBehaviour
     {
         m_goalValue -= value;
         m_goalValueText.text = ""+m_goalValue;
+    }
+
+    /// <summary>
+    /// This function return related goal value
+    /// </summary>
+    /// <returns></returns>
+    public int GetGoalValue()
+    {
+        return m_goalValue;
     }
 
     /// <summary>
@@ -64,5 +83,14 @@ public class UIGoalItem : MonoBehaviour
     public RectTransform GetSlot()
     {
         return m_slot;
+    }
+
+    /// <summary>
+    /// This function return related goal is completed
+    /// </summary>
+    /// <returns></returns>
+    public bool GetGoalIsCompleted()
+    {
+        return goalIsCompleted;
     }
 }

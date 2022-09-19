@@ -13,6 +13,8 @@ namespace PEAK
         [Header("Canvas Groups")]
         [SerializeField] private CanvasGroup m_winPanelCanvasGroup;
 
+        [SerializeField] private UIWinPanel m_uiWinPanel;
+
         #endregion
     
         /// <summary>
@@ -66,6 +68,15 @@ namespace PEAK
         public CanvasGroup GetWinPanelCanvasGroup()
         {
             return m_winPanelCanvasGroup;
+        }
+
+        /// <summary>
+        /// This function return realted ui win panel
+        /// </summary>
+        /// <returns></returns>
+        public UIWinPanel GetUIWinPanel()
+        {
+            return m_uiWinPanel;
         }
     }
 }

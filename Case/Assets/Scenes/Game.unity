@@ -827,6 +827,7 @@ MonoBehaviour:
   m_isPersistant: 0
   m_currencyPrefab: {fileID: 860943950165014392, guid: 731885b5209104551bc8c7d44a0baad3, type: 3}
   m_winPanelCanvasGroup: {fileID: 1154605736}
+  m_uiWinPanel: {fileID: 1154605738}
 --- !u!1 &1197705302
 GameObject:
   m_ObjectHideFlags: 0
