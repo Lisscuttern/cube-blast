@@ -1,4 +1,3 @@
-using System;
 using PEAK;
 using TMPro;
 using UnityEngine;
@@ -13,6 +12,7 @@ public class UIGoalItem : MonoBehaviour
     [SerializeField] private Image m_texture;
     [SerializeField] private int m_goalValue;
     [SerializeField] private EColorType m_eColorType;
+    [SerializeField] private RectTransform m_slot;
 
     #endregion
 
@@ -55,5 +55,14 @@ public class UIGoalItem : MonoBehaviour
     public EColorType GetEColor()
     {
         return m_eColorType;
+    }
+
+    /// <summary>
+    /// This function return related slot
+    /// </summary>
+    /// <returns></returns>
+    public RectTransform GetSlot()
+    {
+        return m_slot;
     }
 }

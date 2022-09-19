@@ -7,6 +7,8 @@ public class LevelComponent : MonoBehaviour
     [SerializeField] private GridComponent m_gridComponent;
     [SerializeField] private UIGoalsPanel m_uiGoalPanel;
     [SerializeField] private UIMovesPanel m_uiMovesPanel;
+    [SerializeField] private RectTransform m_canvas;
+
 
     #endregion
 
@@ -35,5 +37,14 @@ public class LevelComponent : MonoBehaviour
     public GridComponent GetGridComponent()
     {
         return m_gridComponent;
+    }
+
+    /// <summary>
+    /// This function return related canvas
+    /// </summary>
+    /// <returns></returns>
+    public RectTransform GetCanvas()
+    {
+        return m_canvas;
     }
 }

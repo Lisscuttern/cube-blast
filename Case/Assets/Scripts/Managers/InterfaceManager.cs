@@ -6,10 +6,6 @@ namespace PEAK
     public class InterfaceManager : Singleton<InterfaceManager>
     {
         #region SerializeFields
-
-        [Header("Transforms")] 
-        [SerializeField] private RectTransform m_canvas;
-        [SerializeField] private RectTransform m_currencySlot;
         
         [Header("Prefabs")]
         [SerializeField] private RectTransform m_currencyPrefab;
@@ -23,13 +19,14 @@ namespace PEAK
         /// This function helper for fly currency animation to target currency icon.
         /// </summary>
         /// <param name="worldPosition"></param>
-        public void FlyCurrencyFromWorld(Vector3 worldPosition)
+        public void FlyCurrencyFromWorld(RectTransform slot,Vector3 worldPosition, RectTransform prefab)
         {
+            LevelComponent levelComponent = GameManager.Instance.GetLevelComponent();
             Camera targetCamera = CameraManager.Instance.GetCamera();
-            Vector3 screenPosition = GameUtils.WorldToCanvasPosition(m_canvas, targetCamera, worldPosition);
-            Vector3 targetScreenPosition = m_canvas.InverseTransformPoint(m_currencySlot.position);
+            Vector3 screenPosition = GameUtils.WorldToCanvasPosition(levelComponent.GetCanvas(), targetCamera, worldPosition);
+            Vector3 targetScreenPosition = levelComponent.GetCanvas().InverseTransformPoint(slot.position);
 
-            RectTransform createdCurrency = Instantiate(m_currencyPrefab, m_canvas);
+            RectTransform createdCurrency = Instantiate(prefab, levelComponent.GetCanvas());
             createdCurrency.anchoredPosition = screenPosition;
 
             Sequence sequence = DOTween.Sequence();

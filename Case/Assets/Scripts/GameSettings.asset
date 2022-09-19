@@ -31,6 +31,12 @@ MonoBehaviour:
   Balloon: {fileID: 1682775738178472878, guid: ecd2d860823a6459caa2ad39be4f184b, type: 3}
   BalloonMinValue: 0
   BalloonMaxValue: 35
+  RedSRectTransform: {fileID: 6179506282365040715, guid: 0b4e82fc729cf446196cf505546c3ebb, type: 3}
+  BlueRectTransform: {fileID: 618753755351765077, guid: 31aef76b283154b78826fb52b134f165, type: 3}
+  YellowRectTransform: {fileID: 8247687188265807279, guid: 03996136027c44afbb9c1e14bc663575, type: 3}
+  GreenRectTransform: {fileID: 7498158578417429799, guid: 612d5888970d541329bf0d6779fe7a2b, type: 3}
+  PurpleRectTransform: {fileID: 2977447539429635498, guid: dce856c60b680425d9fa237bdf5c31d1, type: 3}
+  BaseRectTransform: {fileID: 0}
   RedSprite: {fileID: 21300000, guid: 8e0badb111c714e4eb5877bb23d31993, type: 3}
   BlueSprite: {fileID: 21300000, guid: b6729df4145674d738d5d279fafc2d25, type: 3}
   YellowSprite: {fileID: 21300000, guid: 98c8bb9d457ea4eafa1a1995022b4730, type: 3}
