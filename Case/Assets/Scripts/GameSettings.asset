@@ -23,7 +23,7 @@ MonoBehaviour:
   Levels:
   - {fileID: 11400000, guid: 97416db7462d94650a1ab269d8ab2ebc, type: 2}
   MinGoalValue: 10
-  MaxGoalValue: 35
+  MaxGoalValue: 25
   RocketSprites:
   - {fileID: 2296376569944336014, guid: 7c66288f480a94da58600688b0c10d81, type: 3}
   - {fileID: 3134176338825500684, guid: 4f2b16877abc34d4981b21d498162783, type: 3}

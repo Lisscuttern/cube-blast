@@ -27,6 +27,11 @@ public class PlayerView : MonoBehaviour
         {
             InterfaceManager.Instance.GetUIWinPanel().WinGame();
         }
+
+        if (levelComponent.GetUIMovesPanel().GetMoveValue() <= 0)
+        {
+            GameManager.Instance.ChangeGameState(EGameState.LOSE);
+        }
         if (m_raycastCubes.Count > 0)
         {
             isCanPlay = false;
